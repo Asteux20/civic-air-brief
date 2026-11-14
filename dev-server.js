@@ -1,6 +1,6 @@
 /**
  * Local dev server: serves /public and routes /api/brief to the same handler Vercel uses.
- * Run: GEMINI_API_KEY=... node server.js
+ * Run: GEMINI_API_KEY=... node dev-server.js
  */
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';

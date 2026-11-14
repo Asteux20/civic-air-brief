@@ -1,4 +1,4 @@
-// Regression tests for the 6 blockers found in the cross-family (Sol) review, .review/SOL-VERDICT.md
+// Edge cases: decimal commas, limit cut-offs, row numbers, malformed snapshots, time zones, invented numbers.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parseTable, parseNumber, parseTime } from '../lib/parse.js';
