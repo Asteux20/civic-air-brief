@@ -1,6 +1,6 @@
 # Civic Air Brief
 
-Turn a messy air quality table, or the air where you are, into a brief that 7 kinds of people can act on: a ward officer, a housing society, a school, a health officer or PHC doctor, traffic police, a construction or industry site manager, or a parent. Every number in the brief links back to the rows it came from. Gemini writes the words; code computes every number.
+Turn a messy air quality table, or the air where you are, into a brief that 8 kinds of people can act on: a ward officer, a housing society, a school, a health officer or PHC doctor, traffic police, a construction or industry site manager, a parent, or a delivery rider or other outdoor worker. Every number in the brief links back to the rows it came from. Gemini writes the words; code computes every number.
 
 ## Access for evaluators
 
@@ -15,7 +15,7 @@ Turn a messy air quality table, or the air where you are, into a brief that 7 ki
 | --- | --- | --- | --- | --- |
 | 1 | Interpret messy tables | delimiter, header, unit and date detection; 7 kinds of bad data flagged with row numbers | `lib/parse.js` `parseTable`, `parseRow` | `clause 1: a messy pasted table is interpreted` |
 | 2 | Trends and hotspots | per-site averages, CPCB bands, x-limit ratios, trends, hotspot ranking | `lib/analyze.js` `analyze` | `clause 2: trends and hotspots come from computed facts` |
-| 3 | Prioritised actions per role | 7 role profiles, each with what that role can and cannot do; alert next steps per role | `lib/ai.js` `buildPrompt`, `lib/alerts.js` `NEXT_STEPS` | `clause 3: actions are prioritised for the asking role` |
+| 3 | Prioritised actions per role | 8 role profiles, each with what that role can and cannot do; alert next steps per role | `lib/ai.js` `buildPrompt`, `lib/alerts.js` `NEXT_STEPS` | `clause 3: actions are prioritised for the asking role` |
 | 4 | Traceable findings, gaps flagged | fact ids with source rows; citations verified; Uncertain tag | `lib/ai.js` `verifyEvidence` | `clause 4: every finding is traceable and gaps are flagged` |
 | 5 | Compare with the previous brief | snapshot diff, new and resolved hotspots, worsened alerts | `lib/diff.js` `compareSnapshots` | `clause 5: each brief is compared with the previous one` |
 | 6 | Note and advisories in languages and reading levels | internal note; advisories in up to 4 of 11 languages incl. outdoor workers | `lib/ai.js` `RESPONSE_SCHEMA`, `lib/schema.js` `validateBrief` | `clause 6: note and advisories in the requested languages` |
@@ -129,4 +129,3 @@ Zero runtime dependencies. Node 22 or newer.
 - Location data is modelled (CAMS via Open-Meteo), not a station reading.
 - The going-out numbers are indicative, not medical advice.
 - History stays in this browser only. Interface languages today: English and Hindi (AI translated); Marathi, Tamil and Bengali are next.
-- Outdoor workers (delivery riders, street vendors, construction crews) get their own advisory section; there is no gig-work role or earnings model.
