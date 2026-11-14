@@ -15,7 +15,7 @@ Turn a messy air quality table, or the air where you are, into a brief that 8 ki
 
 | # | Requirement | Feature | Code | Test |
 | --- | --- | --- | --- | --- |
-| 1 | Interpret messy tables | paste box (`#table`) takes CSV, TSV or spreadsheet text; delimiter, header, unit and date detection; 7 kinds of bad data flagged with row numbers | `lib/parse.js` `parseTable`, `parseRow` | `clause 1: a messy pasted table is interpreted` |
+| 1 | Interpret messy pasted or uploaded tables with GenAI | paste box (`#table`) or file upload takes CSV, TSV or spreadsheet text; code detects delimiter, headers, units and dates and flags 7 kinds of bad data with row numbers; Gemini then explains to the user how the table was read (`tableReading`: which header became which pollutant, place or time, what was converted, which rows were flagged) | `lib/parse.js` `parseTable`; `lib/ai.js` `contextBlocks`, `RESPONSE_SCHEMA.tableReading` | `clause 1: a messy pasted table is interpreted` |
 | 2 | Trends and hotspots | per-site averages, CPCB bands, x-limit ratios, trends, hotspot ranking | `lib/analyze.js` `analyze` | `clause 2: trends and hotspots come from computed facts` |
 | 3 | Prioritised actions per role | 8 roles, including delivery rider, gig or outdoor worker, each with what that role can and cannot do | `lib/ai.js` `ROLES`, `buildPrompt`; `lib/alerts.js` `NEXT_STEPS` | `clause 3: actions are prioritised for the asking role` |
 | 4 | Traceable findings, gaps flagged | fact ids with source rows; citations verified; Uncertain tag | `lib/ai.js` `verifyEvidence` | `clause 4: every finding is traceable and gaps are flagged` |
@@ -26,8 +26,8 @@ Turn a messy air quality table, or the air where you are, into a brief that 8 ki
 | 9 | Going out today exposure helper | inhaled dose, band and best 2-hour window for children, older adults and outdoor workers | `public/lib/exposure.js` `inhaledDose`, `bestWindow`; `public/js/exposure-view.js` | `test/exposure.test.js` |
 | 10 | Tree-planting letter | cited letter to the ward office in the same Gemini call | `RESPONSE_SCHEMA.greenRequest`, `cleanGreen` | `greenRequest letter is kept when complete and dropped` |
 | 11 | English and Hindi interface | one dictionary, `html lang` follows | `public/js/i18n.js` | `test/i18n.test.js` |
-| 12 | Light and dark toggle | `#theme-btn`, saved in the browser, `aria-pressed` kept in sync | `public/js/main.js` | NOT TESTED in `npm test` (browser only) |
-| 13 | Remembered preferences | role, languages, reading level and text size restored on load | `public/js/main.js` `savePrefs`, `loadPrefs` | NOT TESTED in `npm test` (browser only) |
+| 12 | Light and dark toggle | `#theme-btn`, saved in the browser, `aria-pressed` kept in sync | `public/js/main.js` | checked in the browser at 1440 and 375 px |
+| 13 | Remembered preferences | role, languages, reading level and text size restored on load | `public/js/main.js` `savePrefs`, `loadPrefs` | checked in the browser at 1440 and 375 px |
 
 ## Gig and outdoor workers
 
@@ -69,6 +69,7 @@ Shared-store path: every instance reads and writes rate limits and cached briefs
 | Summary, trends, hotspots, prioritised actions, data caveats, change narrative, internal note | `lib/ai.js` `RESPONSE_SCHEMA`, one call |
 | Advisories per language and reading level, with children, older adults, sensitive groups and outdoor workers | same call, `advisories` |
 | Tree or green-buffer letter, with fact ids | same call, `greenRequest` |
+| How the messy table was interpreted, in plain words | same call, `tableReading`, from the parsed header map in `<table>` |
 
 Hallucination guard: the model sees only facts computed in code (at most 120 facts, 24 KB). Every claim must cite fact ids; unknown ids are removed and uncited claims are tagged Uncertain. Numbers in free text that are not in the facts are listed back to the user.
 

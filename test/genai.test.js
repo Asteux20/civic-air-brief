@@ -119,3 +119,11 @@ test('the prompt carries the plain-writing rules and bans the slop words', async
   assert.match(prompt, /crucial, vital, robust, ensure, delve, landscape, navigate/);
   assert.match(prompt, /Parent or resident/);
 });
+
+test('clause 1: the prompt shows Gemini how code mapped each messy header', async () => {
+  const { prepareBrief } = await import('../lib/brief.js');
+  const table = 'Station Name,Date,PM2.5 (ug/m3)\nWard 1,01/11/2026,80\nWard 1,02/11/2026,95\n';
+  const { prompt } = prepareBrief({ table, role: 'ward_officer', languages: ['English'], readingLevel: 'standard' });
+  assert.match(prompt, /<table> how code parsed/);
+  assert.match(prompt, /PM2\.5 \(ug\/m3\) -> pm25/);
+});

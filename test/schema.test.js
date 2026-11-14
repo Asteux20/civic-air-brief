@@ -135,3 +135,9 @@ test('em dashes from the model become commas in every cleaned text field', () =>
   assert.equal(brief.summary, 'Ward 12 is worst, 2.9x the limit');
   assert.ok(!JSON.stringify(brief).includes('\u2014'));
 });
+
+test('clause 1: Gemini explanation of how the messy table was read is kept and cleaned', () => {
+  const { brief } = validateBrief({ summary: 's', internalNote: 'n', actions: [], tableReading: 'Station Name became the location — PM2.5 (ug/m3) became pm25.' }, []);
+  assert.match(brief.tableReading, /Station Name became the location/);
+  assert.doesNotMatch(brief.tableReading, /—/);
+});
