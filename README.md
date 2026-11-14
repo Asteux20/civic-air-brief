@@ -117,7 +117,7 @@ Keyboard: Tab through every control; skip link first; advisory tabs use ArrowLef
 ## Run locally
 
 ```bash
-GEMINI_API_KEY=your_key ACCESS_CODE=airbrief2026 node dev-server.js
+GEMINI_API_KEY=your_key node dev-server.js
 npm test
 ```
 
