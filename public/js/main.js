@@ -182,3 +182,21 @@ $('file').addEventListener('change', loadFile);
 $('form').addEventListener('submit', submit);
 $('clear').addEventListener('click', () => { history.write([]); renderHistory(); });
 document.addEventListener('click', onFactChip);
+
+/** Light and dark toggle; remembered per device, defaults to Technical White. */
+(() => {
+  const btn = document.getElementById('theme-btn');
+  if (!btn) return;
+  const isDark = () => document.documentElement.dataset.theme === 'dark';
+  const apply = (theme) => {
+    document.documentElement.dataset.theme = theme;
+    btn.setAttribute('aria-pressed', String(theme === 'dark'));
+    btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  };
+  try { const saved = localStorage.getItem('cab-theme'); if (saved) apply(saved); } catch { /* storage blocked */ }
+  btn.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    apply(next);
+    try { localStorage.setItem('cab-theme', next); } catch { /* storage blocked */ }
+  });
+})();
