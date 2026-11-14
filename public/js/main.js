@@ -7,12 +7,35 @@ import { useMyLocation, onCitySearch } from './location.js';
 
 const LANGS = ['English', 'Hindi', 'Marathi', 'Tamil', 'Telugu', 'Bengali', 'Kannada', 'Gujarati', 'Malayalam', 'Punjabi', 'Urdu'];
 const HISTORY_KEY = 'airbrief.history.v1';
+const PREFS_KEY = 'airbrief.prefs.v1';
 const STAGES = ['send', 'parse', 'facts', 'write', 'verify'];
 
 const history = {
   read() { try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; } },
   write(list) { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 10))); } catch { /* storage blocked */ } },
 };
+
+/** Save role, languages, text size and UI language; storage may be blocked. */
+function savePrefs() {
+  const prefs = {
+    role: /** @type {HTMLInputElement} */ (document.querySelector('input[name=role]:checked'))?.value,
+    languages: [...document.querySelectorAll('input[name=lang]:checked')].map((i) => /** @type {HTMLInputElement} */ (i).value),
+    size: document.querySelector('[data-size][aria-pressed=true]')?.getAttribute('data-size'),
+    ui: $('ui-lang').value,
+  };
+  try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch { /* storage blocked */ }
+}
+
+/** Pre-select saved preferences on load. */
+function loadPrefs() {
+  let p = {};
+  try { p = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}') || {}; } catch { return; }
+  const role = document.querySelector(`input[name=role][value="${CSS.escape(String(p.role || ''))}"]`);
+  if (role) /** @type {HTMLInputElement} */ (role).checked = true;
+  if (Array.isArray(p.languages) && p.languages.length) document.querySelectorAll('input[name=lang]').forEach((i) => { /** @type {HTMLInputElement} */ (i).checked = p.languages.includes(/** @type {HTMLInputElement} */ (i).value); });
+  document.querySelector(`[data-size="${CSS.escape(String(p.size || ''))}"]`)?.dispatchEvent(new Event('click'));
+  if (p.ui === 'hi' || p.ui === 'en') { $('ui-lang').value = p.ui; setLanguage(p.ui); }
+}
 
 /** Status line under the home paths. */
 function status(msg, kind = '') {
@@ -148,7 +171,10 @@ function onFactChip(e) {
 
 initLangs();
 initDisplay();
+loadPrefs();
 renderHistory();
+document.addEventListener('change', (e) => { if (/** @type {HTMLElement} */ (e.target).closest('#form, .bar')) savePrefs(); });
+document.querySelectorAll('[data-size]').forEach((b) => b.addEventListener('click', savePrefs));
 $('sample-btn').addEventListener('click', loadSample);
 $('loc-btn').addEventListener('click', () => useMyLocation(status));
 $('city-form').addEventListener('submit', (e) => onCitySearch(e, status));
