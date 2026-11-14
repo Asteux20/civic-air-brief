@@ -73,8 +73,17 @@ function bodyView(data) {
 function sideView(data) {
   const { brief, comparison, issues } = data;
   const flagged = issues.filter((i) => i.type !== 'converted');
-  const cmp = comparison.hasPrevious ? [el('p', {}, brief.changeNarrative), el('ul', { class: 'plain lines' }, [...comparison.newHotspots.map((h) => `+ ${h}`), ...comparison.changes.slice(0, 6).map((c) => c.text)].map((x) => el('li', {}, x)))] : [el('p', { class: 'muted' }, t('firstBrief'))];
-  const rows = el('table', {}, el('thead', {}, el('tr', {}, ['Row', 'Column', 'Issue'].map((h) => el('th', { scope: 'col' }, h)))), el('tbody', {}, flagged.slice(0, 60).map((i) => el('tr', {}, el('td', {}, i.row), el('td', {}, i.column), el('td', {}, i.message)))));
+  const changeLines = [
+    ...comparison.newHotspots.map((h) => `+ ${h}`),
+    ...comparison.changes.slice(0, 6).map((c) => c.text),
+  ];
+  const cmp = comparison.hasPrevious
+    ? [el('p', {}, brief.changeNarrative), el('ul', { class: 'plain lines' }, changeLines.map((x) => el('li', {}, x)))]
+    : [el('p', { class: 'muted' }, t('firstBrief'))];
+  const headers = [t('colRow'), t('colColumn'), t('colIssue')];
+  const headRow = el('tr', {}, headers.map((h) => el('th', { scope: 'col' }, h)));
+  const bodyRows = flagged.slice(0, 60).map((i) => el('tr', {}, el('td', {}, i.row), el('td', {}, i.column), el('td', {}, i.message)));
+  const rows = el('table', {}, el('thead', {}, headRow), el('tbody', {}, bodyRows));
   return el('aside', { class: 'side', 'aria-label': t('compareT') },
     el('section', {}, el('h2', { class: 'tag' }, t('compareT')), ...cmp),
     el('section', {}, el('h2', { class: 'tag' }, t('caveats')), el('ul', { class: 'plain lines' }, brief.dataCaveats.map((c) => el('li', {}, c.text, ' ', chips(c.evidence, c))))),

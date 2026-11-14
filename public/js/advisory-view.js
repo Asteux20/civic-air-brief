@@ -16,10 +16,13 @@ function advisoryText(a) {
 function panel(a, i) {
   const copy = el('button', { type: 'button', class: 'btn quiet' }, t('copyWa'));
   copy.addEventListener('click', () => copyText(advisoryText(a), copy, t('copied')));
-  return el('div', { role: 'tabpanel', id: `adv-${i}`, 'aria-labelledby': `adv-${i}-tab`, lang: LANG_CODES[a.language] || '', dir: a.language === 'Urdu' ? 'rtl' : 'ltr', hidden: i !== 0, class: 'adv' },
-    el('h3', {}, a.headline), el('p', {}, a.general),
-    el('div', { class: 'groups' }, GROUPS.map(([k, label]) => el('div', { class: 'grp' }, el('h4', {}, t(label)), el('p', {}, a[k])))),
-    el('div', { class: 'row' }, copy, el('button', { type: 'button', class: 'btn quiet', onclick: () => window.print() }, t('print'))));
+  const groups = GROUPS.map(([k, label]) => el('div', { class: 'grp' }, el('h4', {}, t(label)), el('p', {}, a[k])));
+  const printBtn = el('button', { type: 'button', class: 'btn quiet', onclick: () => window.print() }, t('print'));
+  return el('div', {
+    role: 'tabpanel', id: `adv-${i}`, 'aria-labelledby': `adv-${i}-tab`,
+    lang: LANG_CODES[a.language] || 'en', dir: a.language === 'Urdu' ? 'rtl' : 'ltr',
+    hidden: i !== 0, class: 'adv',
+  }, el('h3', {}, a.headline), el('p', {}, a.general), el('div', { class: 'groups' }, groups), el('div', { class: 'row' }, copy, printBtn));
 }
 
 /** Move selection to a tab. */
@@ -51,10 +54,19 @@ function onKey(tabs, e) {
  */
 export function advisoryView(advisories) {
   if (!advisories?.length) return null;
-  const tabs = el('div', { role: 'tablist', class: 'tabs', 'aria-label': t('advisory') }, advisories.map((a, i) => el('button', { type: 'button', role: 'tab', id: `adv-${i}-tab`, 'aria-controls': `adv-${i}`, 'aria-selected': String(i === 0), tabindex: i === 0 ? '0' : '-1' }, a.language)));
-  tabs.addEventListener('click', (e) => { const x = /** @type {HTMLElement} */ (e.target).closest('[role=tab]'); if (x) select(tabs, x); });
+  const tab = (a, i) => el('button', {
+    type: 'button', role: 'tab', id: `adv-${i}-tab`, 'aria-controls': `adv-${i}`,
+    'aria-selected': String(i === 0), tabindex: i === 0 ? '0' : '-1',
+    lang: LANG_CODES[a.language] || '',
+  }, a.language);
+  const tabs = el('div', { role: 'tablist', class: 'tabs', 'aria-label': t('advisory') }, advisories.map(tab));
+  tabs.addEventListener('click', (e) => {
+    const x = /** @type {HTMLElement} */ (e.target).closest('[role=tab]');
+    if (x) select(tabs, x);
+  });
   tabs.addEventListener('keydown', (e) => onKey(tabs, e));
-  return el('section', { class: 'folk', 'aria-labelledby': 'adv-t' }, el('h2', { id: 'adv-t', class: 'tag' }, t('advisory')), tabs, advisories.map(panel));
+  const heading = el('h2', { id: 'adv-t', class: 'tag' }, t('advisory'));
+  return el('section', { class: 'folk', 'aria-labelledby': 'adv-t' }, heading, tabs, advisories.map(panel));
 }
 
 /**
