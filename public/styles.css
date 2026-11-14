@@ -1,10 +1,13 @@
+@font-face { font-family: Roboto; src: url("fonts/roboto-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: Roboto; src: url("fonts/roboto-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: Roboto; src: url("fonts/roboto-latin-700-normal.woff2") format("woff2"); font-weight: 600 700; font-display: swap; }
 /* Civic Air Brief: Technical White shell, Hand and Folk advisory card. Two motion curves, transform only. */
 :root {
   --ink: #0A0A0A; --ground: #FFFFFF; --panel: #F4F5F7; --rule: #DADDE2; --field: #6B7079;
   --muted: #4A4F57; --accent: #0032CA; --accent-ink: #FFFFFF; --accent-soft: #E8EDFB;
   --severe: #922A24; --slate: #37618C; --shell: #0A0A0A; --shell-ink: #FFFFFF;
   --folk-ground: #E8E1CF; --folk-ink: #120D0C;
-  --sans: "Helvetica Neue", Helvetica, Arial, "Nirmala UI", "Noto Sans Devanagari", "Noto Nastaliq Urdu", sans-serif;
+  --sans: Roboto, "Helvetica Neue", Helvetica, Arial, "Nirmala UI", "Noto Sans Devanagari", "Noto Nastaliq Urdu", sans-serif;
   --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
   --ease-ui: cubic-bezier(.23, 1, .32, 1); --ease-reveal: cubic-bezier(.19, 1, .22, 1);
   --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px;
