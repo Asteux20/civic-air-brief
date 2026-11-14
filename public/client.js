@@ -1,6 +1,6 @@
 // Client for Air Briefing Studio. All rendering uses textContent (no innerHTML with data).
-const LANGS = ['English', 'Hindi', 'Marathi', 'Tamil', 'Telugu', 'Bengali', 'Kannada', 'Gujarati', 'Malayalam', 'Punjabi'];
-const LANG_CODES = { English: 'en', Hindi: 'hi', Marathi: 'mr', Tamil: 'ta', Telugu: 'te', Bengali: 'bn', Kannada: 'kn', Gujarati: 'gu', Malayalam: 'ml', Punjabi: 'pa' };
+const LANGS = ['English', 'Hindi', 'Marathi', 'Tamil', 'Telugu', 'Bengali', 'Kannada', 'Gujarati', 'Malayalam', 'Punjabi', 'Urdu'];
+const LANG_CODES = { English: 'en', Hindi: 'hi', Marathi: 'mr', Tamil: 'ta', Telugu: 'te', Bengali: 'bn', Kannada: 'kn', Gujarati: 'gu', Malayalam: 'ml', Punjabi: 'pa', Urdu: 'ur' };
 const ROLE_NAMES = { ward_officer: 'Ward officer', housing_society: 'Housing society', school: 'School' };
 const HISTORY_KEY = 'airbrief.history.v1';
 
@@ -110,11 +110,18 @@ function render(data) {
   $('note').textContent = brief.internalNote;
 
   renderAdvisories(brief.advisories);
+  renderAlerts(data.alerts || []);
 
   $('facts').replaceChildren(el('h3', {}, 'Source facts (computed from your table)'),
     el('p', { class: 'muted' }, 'Each fact lists the table rows it comes from (header = row 1).'),
     el('ol', { class: 'facts' }, analysis.facts.map((f) => el('li', { id: `fact-${f.id}`, class: 'fact', tabindex: '-1' }, el('strong', {}, `${f.id} `), f.text, el('span', { class: 'muted' }, ` Rows: ${f.rows.join(', ')}`)))));
   $('summary-card').scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderAlerts(alerts) {
+  const box = $('alerts');
+  box.hidden = !alerts.length;
+  box.replaceChildren(el('h3', {}, 'Alerts found in your data'), el('ul', { class: 'items' }, alerts.map((a) => el('li', {}, el('strong', {}, `${a.severity.toUpperCase()}: `), a.text, ' ', a.nextStep, ' ', evidenceLinks(a.factIds)))));
 }
 
 function renderAdvisories(advisories) {
@@ -125,11 +132,12 @@ function renderAdvisories(advisories) {
   advisories.forEach((a, i) => {
     const id = `adv-${i}`;
     const tab = el('button', { type: 'button', role: 'tab', id: `${id}-tab`, 'aria-controls': id, 'aria-selected': String(i === 0), tabindex: i === 0 ? '0' : '-1', class: 'tab' }, a.language);
-    const panel = el('div', { role: 'tabpanel', id, 'aria-labelledby': `${id}-tab`, lang: LANG_CODES[a.language] || '', class: 'adv' },
+    const panel = el('div', { role: 'tabpanel', id, 'aria-labelledby': `${id}-tab`, lang: LANG_CODES[a.language] || '', dir: a.language === 'Urdu' ? 'rtl' : 'ltr', class: 'adv' },
       el('h4', {}, a.headline), el('p', {}, a.general),
       el('h5', {}, 'Children'), el('p', {}, a.children),
       el('h5', {}, 'Older adults'), el('p', {}, a.olderAdults),
-      el('h5', {}, 'Asthma, heart or lung conditions, pregnancy'), el('p', {}, a.sensitiveGroups));
+      el('h5', {}, 'Asthma, heart or lung conditions, pregnancy'), el('p', {}, a.sensitiveGroups),
+      el('h5', {}, 'Outdoor workers'), el('p', {}, a.outdoorWorkers));
     if (i !== 0) panel.hidden = true;
     tabs.append(tab);
     panels.append(panel);

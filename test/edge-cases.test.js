@@ -5,7 +5,8 @@ import { parseTable, parseNumber, parseTime } from '../lib/parse.js';
 import { analyze } from '../lib/analyze.js';
 import { compareSnapshots } from '../lib/diff.js';
 import { verifyEvidence } from '../lib/ai.js';
-import { validateRequest, sanitizeSnapshot } from '../lib/validate.js';
+import { validateRequest } from '../lib/validate.js';
+import { validateSnapshot as sanitizeSnapshot } from '../lib/schema.js';
 
 test('decimal comma is a decimal, thousands comma is thousands', () => {
   assert.equal(parseNumber('1,5'), 1.5);
