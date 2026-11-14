@@ -1,4 +1,4 @@
-﻿# Air Briefing Studio
+# Air Briefing Studio
 
 Civic Air Quality Briefing Studio for the PromptWars warm-up challenge. It turns a raw, messy air quality table into a brief that a ward officer, a housing society or a school can act on. Every finding links back to the rows it came from.
 
