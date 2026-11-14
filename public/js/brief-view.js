@@ -63,6 +63,7 @@ function bodyView(data) {
   const act = (a) => el('li', {}, el('b', {}, a.action), el('span', { class: 'when' }, ` ${a.timeframe}`), el('p', {}, a.why, ' ', chips(a.evidence, a)));
   return [
     el('section', { 'aria-labelledby': 'sum-t' }, el('h2', { id: 'sum-t', class: 'tag', tabindex: '-1' }, t('summary')), el('p', { class: 'lead' }, brief.summary),
+      brief.tableReading ? el('p', { class: 'muted reading' }, `${t('tableReading')}: ${brief.tableReading}`) : null,
       el('p', { class: 'traced' }, t('traced', { v: data.traced?.verified ?? 0, t: data.traced?.total ?? 0 }))),
     el('section', { 'aria-labelledby': 'act-t' }, el('h2', { id: 'act-t', class: 'tag' }, t('actions')), el('ol', { class: 'actions' }, brief.actions.map(act))),
     brief.trends.length ? el('section', { 'aria-labelledby': 'tr-t' }, el('h2', { id: 'tr-t', class: 'tag' }, t('trends')), el('ul', { class: 'plain lines' }, brief.trends.map((x) => el('li', {}, x.text, ' ', chips(x.evidence, x))))) : null,
