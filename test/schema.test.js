@@ -119,3 +119,12 @@ test('brief: non-object input reports every required field missing', () => {
     assert.deepEqual(missing, ['summary', 'internalNote', 'actions', 'advisory:English', 'advisory:Hindi']);
   }
 });
+
+test('greenRequest letter is kept when complete and dropped, never invented, when empty', async () => {
+  const { validateBrief } = await import('../lib/schema.js');
+  const base = { summary: 's', internalNote: 'n', actions: [{ priority: 1, action: 'a', why: 'w', timeframe: 't', evidence: [] }], advisories: [] };
+  const kept = validateBrief({ ...base, greenRequest: { subject: 'Trees near Ward 12', body: 'Dear officer', evidence: ['F3', 7] } }, []);
+  assert.deepEqual(kept.brief.greenRequest, { subject: 'Trees near Ward 12', body: 'Dear officer', evidence: ['F3'] });
+  assert.equal(validateBrief({ ...base, greenRequest: { subject: '', body: 'x' } }, []).brief.greenRequest, null);
+  assert.equal(validateBrief(base, []).brief.greenRequest, null);
+});

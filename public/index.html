@@ -3,89 +3,112 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Air Briefing Studio</title>
-  <meta name="description" content="Turn messy air quality tables into traceable, role-specific briefs and multilingual citizen advisories with Gemini.">
+  <title>Civic Air Brief</title>
+  <meta name="description" content="Turn a messy air quality table, or the air where you are, into a traceable brief, actions for your role and advisories in Indian languages.">
   <link rel="stylesheet" href="styles.css">
+  <script type="module" src="js/main.js"></script>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
-  <header class="top">
-    <div class="wrap">
-      <h1>Air Briefing Studio</h1>
-      <p class="lede">Paste a raw air quality table. Get hotspots, actions for who you are, what changed since last time, and advisories people can read, with every finding linked to your rows.</p>
-    </div>
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+  <header class="bar">
+    <span class="mark"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12c2-3 4 1 6-2s4 1 6-2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>Civic Air Brief</span></span>
+    <nav aria-label="Display">
+      <label class="sr-only" for="ui-lang" data-i18n="uiLanguage">Interface language</label>
+      <select id="ui-lang"><option value="en">English</option><option value="hi">हिन्दी</option></select>
+      <div class="size" role="group" aria-label="Text size">
+        <button type="button" data-size="100" aria-pressed="true" aria-label="Normal text">A</button>
+        <button type="button" data-size="118" aria-pressed="false" aria-label="Large text">A+</button>
+        <button type="button" data-size="135" aria-pressed="false" aria-label="Largest text">A++</button>
+      </div>
+      <button type="button" class="help" id="help-btn" aria-controls="guide" aria-expanded="false" aria-label="How to read your brief">?</button>
+    </nav>
   </header>
 
-  <main id="main" class="wrap">
-    <form id="form" class="card" novalidate>
-      <h2>1. Your data</h2>
-      <label for="table">Air quality table (CSV, TSV, semicolon or spaced columns; mixed units are fine)</label>
-      <textarea id="table" name="table" rows="9" spellcheck="false" placeholder="Station, Date, PM2.5, PM10, NO2 ..." required aria-describedby="table-help"></textarea>
-      <p id="table-help" class="help">Headers like Station / Ward / Site, Date, PM2.5, PM10, NO2, O3, SO2, CO, AQI are recognised. Units in headers or cells (µg/m³, mg/m³, ppb, ppm) are converted.</p>
-      <div class="row">
-        <label class="file">Upload a file <input id="file" type="file" accept=".csv,.tsv,.txt,text/csv,text/plain"></label>
-        <button type="button" id="sample" class="ghost">Load sample messy table</button>
+  <main id="main">
+    <section class="home" aria-labelledby="hero-title">
+      <p class="tag" data-i18n="tagHome">Air quality brief</p>
+      <h1 id="hero-title" data-i18n="hero">Turn an air quality table, or the air where you are, into actions and advice people can read.</h1>
+      <ol class="how" aria-label="How to use">
+        <li><b>1</b><span data-i18n="how1">Load data: try our sample, use your location, or paste your own table.</span></li>
+        <li><b>2</b><span data-i18n="how2">Say who you are and which languages people read.</span></li>
+        <li><b>3</b><span data-i18n="how3">Get a brief where every number links to the rows it came from.</span></li>
+      </ol>
+      <div class="paths">
+        <button type="button" class="path" id="sample-btn"><span class="path-t" data-i18n="trySample">Try the sample table</span><span class="path-d" data-i18n="trySampleD">21 rows from 4 Pune sites, with real data problems</span></button>
+        <button type="button" class="path" id="loc-btn"><span class="path-t" data-i18n="useLocation">Use my location</span><span class="path-d" data-i18n="useLocationD">Last 24 hours of modelled air for where you are. Not stored.</span></button>
       </div>
+      <form class="city" id="city-form" hidden>
+        <label for="city" data-i18n="cityLabel">Location blocked or unavailable. Search a city instead:</label>
+        <div class="inline"><input id="city" type="search" autocomplete="address-level2" required><button class="btn" type="submit" data-i18n="search">Search</button></div>
+        <ul id="city-results" class="plain"></ul>
+      </form>
+      <p class="status" id="data-status" role="status" aria-live="polite"></p>
+    </section>
 
-      <h2>2. Who is asking</h2>
-      <fieldset class="roles">
-        <legend class="sr-only">Role</legend>
-        <label><input type="radio" name="role" value="ward_officer" checked> Ward officer</label>
-        <label><input type="radio" name="role" value="housing_society"> Housing society</label>
-        <label><input type="radio" name="role" value="school"> School</label>
-      </fieldset>
+    <details class="guide" id="guide">
+      <summary data-i18n="guideTitle">How to read your brief</summary>
+      <dl>
+        <dt data-i18n="gBand">Band</dt><dd data-i18n="gBandD">India's CPCB scale: Good, Satisfactory, Moderate, Poor, Very Poor, Severe. Poor and worse affects most people on long exposure.</dd>
+        <dt data-i18n="gTimes">2.9× limit</dt><dd data-i18n="gTimesD">The site average divided by the India 24-hour limit (PM2.5 60, PM10 100, NO2 80). Above 1× breaks the standard.</dd>
+        <dt data-i18n="gConf">Confidence</dt><dd data-i18n="gConfD">High means many clean readings. Low means few readings or many flagged ones, so treat the site with care.</dd>
+        <dt data-i18n="gChip">F3 chips</dt><dd data-i18n="gChipD">Each chip is a fact computed in code from your rows. Select it to see the exact rows.</dd>
+        <dt data-i18n="gUnc">Uncertain</dt><dd data-i18n="gUncD">The AI wrote a claim it could not tie to a fact. Read it as a lead, not a finding.</dd>
+      </dl>
+    </details>
 
-      <h2>3. Citizen advisory</h2>
-      <fieldset>
-        <legend>Languages (up to 4)</legend>
-        <div class="chips" id="langs"></div>
-      </fieldset>
-      <fieldset class="roles">
-        <legend>Reading level</legend>
-        <label><input type="radio" name="level" value="simple" checked> Simple (age 10)</label>
-        <label><input type="radio" name="level" value="standard"> Standard</label>
-      </fieldset>
-
-      <label for="code">Access code</label>
-      <input id="code" name="code" type="password" autocomplete="off" placeholder="See README">
-
-      <div class="row">
-        <button type="submit" id="go" class="primary">Generate brief</button>
-        <label class="inline"><input type="checkbox" id="compare" checked> Compare with my previous brief</label>
+    <form id="form" class="setup" novalidate aria-labelledby="setup-title">
+      <h2 id="setup-title" class="tag" data-i18n="setup">Your brief</h2>
+      <div class="field">
+        <label for="table" data-i18n="tableLabel">Air quality table</label>
+        <p class="hint" id="table-hint" data-i18n="tableHint">CSV, TSV or pasted from a spreadsheet. Messy is fine.</p>
+        <textarea id="table" aria-describedby="table-hint table-err" spellcheck="false"></textarea>
+        <p class="err" id="table-err"></p>
+        <label class="btn quiet file"><input type="file" id="file" accept=".csv,.tsv,.txt" class="sr-only"><span data-i18n="upload">Upload a file</span></label>
+        <p class="source" id="source-note" hidden></p>
       </div>
-      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <fieldset class="field"><legend data-i18n="role">I am a</legend>
+        <div class="seg">
+          <label><input type="radio" name="role" value="ward_officer" checked> <span data-i18n="roleWard">Ward officer</span></label>
+          <label><input type="radio" name="role" value="housing_society"> <span data-i18n="roleSociety">Housing society</span></label>
+          <label><input type="radio" name="role" value="school"> <span data-i18n="roleSchool">School</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="field"><legend data-i18n="langs">Advisory languages (up to 4)</legend><div class="chips" id="langs"></div><p class="err" id="langs-err"></p></fieldset>
+      <fieldset class="field"><legend data-i18n="level">Reading level</legend>
+        <div class="seg">
+          <label><input type="radio" name="level" value="standard" checked> <span data-i18n="levelStd">Standard</span></label>
+          <label><input type="radio" name="level" value="simple"> <span data-i18n="levelSimple">Simple, about age 10</span></label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="code" data-i18n="code">Access code</label>
+        <input id="code" type="password" autocomplete="off" aria-describedby="code-err">
+        <p class="err" id="code-err"></p>
+      </div>
+      <label class="check"><input type="checkbox" id="compare" checked> <span data-i18n="compare">Compare with my last brief on this device</span></label>
+      <button class="btn primary" id="go" type="submit" data-i18n="go">Write the brief</button>
+      <p class="err" id="form-err" role="alert"></p>
     </form>
 
-    <section id="out" hidden aria-labelledby="out-h">
-      <h2 id="out-h" class="sr-only">Brief</h2>
-      <div class="card" id="alerts" role="region" aria-label="Alerts" hidden></div>
-      <div class="card" id="summary-card"></div>
-      <div class="grid">
-        <div class="card" id="changes"></div>
-        <div class="card" id="quality"></div>
+    <ol class="stages" id="stages" hidden aria-label="Progress"></ol>
+
+    <div id="out" hidden></div>
+
+    <section class="exposure" id="exposure" hidden aria-labelledby="exp-title">
+      <h2 id="exp-title" class="tag" data-i18n="expTitle">Going out today</h2>
+      <p class="hint" data-i18n="expHint">Indicative only, not medical advice. Uses the modelled PM2.5 for your location and US EPA breathing rates.</p>
+      <div class="exp-form">
+        <label><span data-i18n="expWho">Who</span><select id="exp-group"></select></label>
+        <label><span data-i18n="expDoing">Doing</span><select id="exp-activity"></select></label>
+        <label><span data-i18n="expMinutes">Minutes</span><input id="exp-minutes" type="number" min="5" max="720" step="5" value="60" inputmode="numeric"></label>
       </div>
-      <div class="card" id="hotspots"></div>
-      <div class="card" id="actions"></div>
-      <div class="card" id="trends"></div>
-      <div class="card">
-        <div class="head"><h3>Internal briefing note</h3><button type="button" class="ghost" data-copy="note">Copy</button></div>
-        <pre id="note" class="note"></pre>
-      </div>
-      <div class="card">
-        <h3>Citizen advisory</h3>
-        <div role="tablist" id="adv-tabs" aria-label="Advisory language"></div>
-        <div id="adv-panels"></div>
-      </div>
-      <div class="card" id="facts"></div>
+      <div id="exp-result" aria-live="polite"></div>
     </section>
 
-    <section class="card" id="history-card" aria-labelledby="hist-h">
-      <h2 id="hist-h">Previous briefs on this device</h2>
-      <ol id="history"></ol>
-      <button type="button" id="clear" class="ghost">Clear history</button>
+    <section class="history" aria-labelledby="hist-title">
+      <details><summary id="hist-title" data-i18n="history">Past briefs on this device</summary><ul id="history" class="plain"></ul><button type="button" class="btn quiet" id="clear" data-i18n="clear">Clear history</button></details>
     </section>
   </main>
-  <footer class="wrap foot">Numbers are computed from your table in code; Gemini writes the guidance and must cite fact ids. Uncited claims are marked. Limits: India NAAQS.</footer>
-  <script type="module" src="client.js"></script>
+  <footer class="foot"><p data-i18n="foot">Numbers come from your table, computed in code. Gemini writes the words and cites the numbers. Location data: CAMS model via Open-Meteo, not a station reading.</p></footer>
 </body>
 </html>
