@@ -16,7 +16,7 @@ AI should explain the data, not make it up. So the numbers are computed in code 
 A ward team or RWA can paste whatever export they have and get, in under a minute, a brief they can act on and an advisory they can forward, without anyone cleaning the spreadsheet first. Re-running it each week shows whether things got better or worse.
 
 ## GenAI capabilities and where
-- Gemini 2.5 Flash with structured JSON output (response schema): lib/ai.js callGemini
+- Gemini 3.5 Flash (falls back to gemini-flash-latest when busy) with structured JSON output (response schema): lib/ai.js callGemini
 - Plain-language summary, trends and hotspot explanations from computed facts: lib/ai.js buildPrompt
 - Role-specific prioritised actions (ward officer / housing society / school): role profiles in lib/ai.js
 - Narrative of what changed vs the previous brief (diff computed in lib/diff.js)

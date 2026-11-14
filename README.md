@@ -22,7 +22,7 @@ Civic Air Quality Briefing Studio for the PromptWars warm-up challenge. It turns
 
 | Capability | Where |
 | --- | --- |
-| Gemini 2.5 Flash, structured JSON output with a response schema | `lib/ai.js` `callGemini` |
+| Gemini 3.5 Flash (falls back to gemini-flash-latest when busy), structured JSON output with a response schema | `lib/ai.js` `callGemini` |
 | Plain-language summary of trends and hotspots | `summary`, `trends`, `hotspots` |
 | Role-aware prioritised actions (ward officer, housing society, school) | `buildPrompt` role profiles in `lib/ai.js` |
 | Narrative of what changed since the previous brief | `changeNarrative`, using the code diff from `lib/diff.js` |
