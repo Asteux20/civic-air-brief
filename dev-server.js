@@ -11,6 +11,11 @@ import handler from './api/brief.js';
 const root = join(fileURLToPath(new URL('.', import.meta.url)), 'public');
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.csv': 'text/csv', '.svg': 'image/svg+xml' };
 
+/**
+ * Add the status() and json() helpers that Vercel provides.
+ * @param {import('node:http').ServerResponse} res
+ * @returns {import('node:http').ServerResponse} the same response object
+ */
 function wrap(res) {
   res.status = (code) => { res.statusCode = code; return res; };
   res.json = (obj) => { res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify(obj)); return res; };

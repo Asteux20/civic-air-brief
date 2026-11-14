@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * POST /api/brief  (Vercel serverless function, also used by dev-server.js locally)
  *
@@ -110,9 +111,10 @@ function sendError(res, err, started) {
 
 /**
  * Vercel function handler. deps lets tests inject the AI call, the store and the config.
- * @param {object} req
- * @param {object} res
- * @param {{generate?: Function, store?: import('../lib/store.js').Store, config?: ReturnType<typeof loadConfig>}} [deps]
+ * @param {object} req Node or Vercel request with method, headers, body and socket
+ * @param {object} res Node or Vercel response with status(), json() and setHeader()
+ * @param {{generate?: Function, store?: import('../lib/store.js').Store, config?: ReturnType<typeof loadConfig>}} [deps] test overrides
+ * @returns {Promise<any>} resolves after the JSON response is sent; errors become JSON responses, never throws
  */
 export default async function handler(req, res, deps = {}) {
   const { config = defaultConfig, store = defaultStore } = deps;

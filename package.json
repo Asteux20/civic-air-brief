@@ -4,10 +4,14 @@
   "description": "Civic Air Quality Briefing Studio: messy air quality tables to traceable, role-specific briefs and multilingual advisories with Gemini.",
   "type": "module",
   "private": true,
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "node dev-server.js",
-    "test": "node --test \"test/*.test.js\""
+    "test": "node --test \"test/*.test.js\"",
+    "lint": "node scripts/check-fn-length.js",
+    "coverage": "node --test --experimental-test-coverage \"test/*.test.js\""
   },
   "license": "MIT"
 }
