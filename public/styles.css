@@ -80,7 +80,7 @@ input[type=password], .exp-form input, .exp-form select { min-height: 44px; bord
 .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 500; font-size: 1.0625rem; min-height: 52px; }
 .btn.quiet { border-color: var(--rule); }
 .btn:disabled { opacity: .6; cursor: progress; }
-.file { justify-self: start; }
+.field > label.file { justify-self: start; padding: 0 var(--s4); }
 
 /* progress stages */
 .stages { list-style: none; padding: 0; margin: 0 0 var(--s7); max-width: 72ch; display: grid; gap: var(--s2); counter-reset: st; }
