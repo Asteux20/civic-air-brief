@@ -61,3 +61,10 @@ test('compare snapshots reports change', () => {
 test('compare with no previous', () => {
   assert.equal(compareSnapshots({ locations: {} }, null).hasPrevious, false);
 });
+
+test('a site with fewer than 3 valid readings is low confidence, never high', async () => {
+  const { parseTable } = await import('../lib/parse.js');
+  const { analyze } = await import('../lib/analyze.js');
+  const a = analyze(parseTable('Station,Date,PM2.5\nWard 9,01/11/2026,40\n'));
+  assert.equal(a.locations[0].confidence, 'low');
+});
