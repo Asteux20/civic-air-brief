@@ -1,4 +1,5 @@
-{
+﻿{
+  "framework": null,
   "outputDirectory": "public",
   "functions": { "api/brief.js": { "maxDuration": 60 } },
   "headers": [

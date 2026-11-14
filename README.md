@@ -1,4 +1,4 @@
-# Air Briefing Studio
+﻿# Air Briefing Studio
 
 Civic Air Quality Briefing Studio for the PromptWars warm-up challenge. It turns a raw, messy air quality table into a brief that a ward officer, a housing society or a school can act on. Every finding links back to the rows it came from.
 
@@ -10,7 +10,7 @@ Civic Air Quality Briefing Studio for the PromptWars warm-up challenge. It turns
 
 ## What it does
 
-1. **Reads messy tables.** CSV, TSV, semicolon, pipe or space-aligned text, pasted or uploaded. Headers like `Station Name`, `Ward`, `PM2.5 (ug/m3)`, `NO2 ppb` are recognised. Units in headers or cells (µg/m³, mg/m³, ppb, ppm) are converted to standard units.
+1. **Reads messy tables.** CSV, TSV, semicolon, pipe or space-aligned text, pasted or uploaded. Headers like `Station Name`, `Ward`, `PM2.5 (ug/m3)`, `NO2 ppb` are recognised. Units in headers or cells (Âµg/mÂ³, mg/mÂ³, ppb, ppm) are converted to standard units.
 2. **Flags bad data in code**, with row numbers: missing values, non-numeric cells, negative readings, implausible spikes, duplicate rows, PM2.5 above PM10, stuck sensors (4+ identical readings) and unreadable dates. Flagged readings are kept out of the statistics.
 3. **Computes facts in code**: per-site averages, peaks, CPCB AQI bands, exceedances of the India NAAQS limits, trends (first third vs last third of readings) and a hotspot ranking with a data-confidence level. Each fact gets an id (F1, F2, ...) and its source rows.
 4. **Gemini writes the guidance** from those facts only: summary, trends, hotspots, prioritised actions for the chosen role, data caveats, a "what changed" narrative, an internal briefing note, and citizen advisories.
@@ -54,7 +54,7 @@ test/          node:test unit and handler tests (no network)
 ## Run locally
 
 ```bash
-GEMINI_API_KEY=your_key ACCESS_CODE=airbrief2026 node server.js
+GEMINI_API_KEY=your_key ACCESS_CODE=airbrief2026 node dev-server.js
 npm test
 ```
 

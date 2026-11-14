@@ -1,5 +1,5 @@
-/**
- * POST /api/brief  (Vercel serverless function, also used by server.js locally)
+﻿/**
+ * POST /api/brief  (Vercel serverless function, also used by dev-server.js locally)
  *
  * Gemini spend is bounded three ways: a per-IP limit, a per-instance hourly cap
  * (MAX_BRIEFS_PER_HOUR) and a cache, so the same table and options never call Gemini twice.

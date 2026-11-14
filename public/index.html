@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -21,7 +21,7 @@
       <h2>1. Your data</h2>
       <label for="table">Air quality table (CSV, TSV, semicolon or spaced columns; mixed units are fine)</label>
       <textarea id="table" name="table" rows="9" spellcheck="false" placeholder="Station, Date, PM2.5, PM10, NO2 ..." required aria-describedby="table-help"></textarea>
-      <p id="table-help" class="help">Headers like Station / Ward / Site, Date, PM2.5, PM10, NO2, O3, SO2, CO, AQI are recognised. Units in headers or cells (µg/m³, mg/m³, ppb, ppm) are converted.</p>
+      <p id="table-help" class="help">Headers like Station / Ward / Site, Date, PM2.5, PM10, NO2, O3, SO2, CO, AQI are recognised. Units in headers or cells (Âµg/mÂ³, mg/mÂ³, ppb, ppm) are converted.</p>
       <div class="row">
         <label class="file">Upload a file <input id="file" type="file" accept=".csv,.tsv,.txt,text/csv,text/plain"></label>
         <button type="button" id="sample" class="ghost">Load sample messy table</button>
@@ -85,6 +85,6 @@
     </section>
   </main>
   <footer class="wrap foot">Numbers are computed from your table in code; Gemini writes the guidance and must cite fact ids. Uncited claims are marked. Limits: India NAAQS.</footer>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="client.js"></script>
 </body>
 </html>
