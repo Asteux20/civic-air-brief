@@ -96,6 +96,18 @@ test('handler end to end with injected AI', async () => {
   assert.equal(res.headers['Cache-Control'], 'no-store');
 });
 
+test('identical request is served from cache without a second Gemini call', async () => {
+  let calls = 0;
+  const generate = async () => { calls += 1; return { brief: fakeBrief, model: 'test' }; };
+  const req = () => ({ method: 'POST', headers: { 'x-forwarded-for': '7.7.7.7' }, body: { table: sample, role: 'school', languages: ['Tamil'], readingLevel: 'simple', previous: null } });
+  const a = mockRes();
+  await handler(req(), a, { generate });
+  const b = mockRes();
+  await handler(req(), b, { generate });
+  assert.equal(calls, 1);
+  assert.equal(b.body.cached, true);
+});
+
 test('handler rejects wrong method, bad body and unparseable tables', async () => {
   let res = mockRes();
   await handler({ method: 'GET', headers: {} }, res);

@@ -1,13 +1,42 @@
 /**
  * POST /api/brief  (Vercel serverless function, also used by server.js locally)
+ *
+ * Gemini spend is bounded three ways: a per-IP limit, a per-instance hourly cap
+ * (MAX_BRIEFS_PER_HOUR) and a cache, so the same table and options never call Gemini twice.
  */
+import { createHash } from 'node:crypto';
 import { createBrief } from '../lib/brief.js';
 import { validateRequest, checkAccess, createRateLimiter } from '../lib/validate.js';
 
-const allow = createRateLimiter({ limit: 8, windowMs: 60000 });
+const perIp = createRateLimiter({ limit: 4, windowMs: 60000 });
+const hourly = createRateLimiter({ limit: Number(process.env.MAX_BRIEFS_PER_HOUR) || 60, windowMs: 3600000 });
+const CACHE_TTL_MS = 30 * 60000;
+const CACHE_MAX = 50;
+const cache = new Map();
 
 function log(level, event, data = {}) {
   console[level === 'error' ? 'error' : 'log'](JSON.stringify({ level, event, at: new Date().toISOString(), ...data }));
+}
+
+/** Cache key over everything that changes the brief. */
+export function cacheKey(input) {
+  const { table, role, languages, readingLevel, previous } = input;
+  return createHash('sha256').update(JSON.stringify([table, role, [...languages].sort(), readingLevel, previous])).digest('hex');
+}
+
+function fromCache(key, now = Date.now()) {
+  const hit = cache.get(key);
+  if (!hit) return null;
+  if (now - hit.at > CACHE_TTL_MS) {
+    cache.delete(key);
+    return null;
+  }
+  return hit.result;
+}
+
+function toCache(key, result) {
+  if (cache.size >= CACHE_MAX) cache.delete(cache.keys().next().value); // oldest first
+  cache.set(key, { at: Date.now(), result });
 }
 
 export default async function handler(req, res, deps = {}) {
@@ -21,15 +50,26 @@ export default async function handler(req, res, deps = {}) {
     log('warn', 'auth_denied', { ip });
     return res.status(401).json({ error: 'Invalid access code.' });
   }
-  if (!allow(ip)) {
-    log('warn', 'rate_limited', { ip });
-    return res.status(429).json({ error: 'Too many briefs in a minute. Please wait and try again.' });
-  }
   const started = Date.now();
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const input = validateRequest(body);
+    const key = cacheKey(input);
+    const cached = fromCache(key);
+    if (cached) {
+      log('info', 'brief_cached', { role: input.role });
+      return res.status(200).json({ ...cached, cached: true });
+    }
+    if (!perIp(ip)) {
+      log('warn', 'rate_limited', { ip });
+      return res.status(429).json({ error: 'Too many briefs in a minute. Please wait a minute and try again.' });
+    }
+    if (!hourly('global')) {
+      log('warn', 'hourly_cap');
+      return res.status(429).json({ error: 'The hourly brief limit for this demo is reached. Please try again later.' });
+    }
     const result = await createBrief(input, deps);
+    toCache(key, result);
     log('info', 'brief_ok', { role: input.role, langs: input.languages.length, rows: result.analysis.rowCount, unverified: result.unverifiedCount, ms: Date.now() - started });
     return res.status(200).json(result);
   } catch (err) {
