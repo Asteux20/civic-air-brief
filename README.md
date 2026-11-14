@@ -1,11 +1,13 @@
 # Civic Air Brief
 
+**Live: https://civic-air-brief.vercel.app** (open access, no code needed)
+
 Turn a messy air quality table, or the air where you are, into a brief that 8 kinds of people can act on: a ward officer, a housing society, a school, a health officer or PHC doctor, traffic police, a construction or industry site manager, a parent, or a delivery rider or other outdoor worker. Every number in the brief links back to the rows it came from. Gemini writes the words; code computes every number.
 
 ## Access for evaluators
 
-- Live app: see the deployed link on the submission
-- Access code: `airbrief2026` (type it in the Access code field)
+- Live app: https://civic-air-brief.vercel.app
+- Access is open: no code, no sign-in.
 - Select **Try the sample table**, then **Write the brief**. Write a second brief to see **Since your last brief**.
 - Or select **Use my location** (or search a city) for the last 24 hours of modelled air where you are.
 
@@ -13,17 +15,34 @@ Turn a messy air quality table, or the air where you are, into a brief that 8 ki
 
 | # | Requirement | Feature | Code | Test |
 | --- | --- | --- | --- | --- |
-| 1 | Interpret messy tables | delimiter, header, unit and date detection; 7 kinds of bad data flagged with row numbers | `lib/parse.js` `parseTable`, `parseRow` | `clause 1: a messy pasted table is interpreted` |
+| 1 | Interpret messy tables | paste box (`#table`) takes CSV, TSV or spreadsheet text; delimiter, header, unit and date detection; 7 kinds of bad data flagged with row numbers | `lib/parse.js` `parseTable`, `parseRow` | `clause 1: a messy pasted table is interpreted` |
 | 2 | Trends and hotspots | per-site averages, CPCB bands, x-limit ratios, trends, hotspot ranking | `lib/analyze.js` `analyze` | `clause 2: trends and hotspots come from computed facts` |
-| 3 | Prioritised actions per role | 8 role profiles, each with what that role can and cannot do; alert next steps per role | `lib/ai.js` `buildPrompt`, `lib/alerts.js` `NEXT_STEPS` | `clause 3: actions are prioritised for the asking role` |
+| 3 | Prioritised actions per role | 8 roles, including delivery rider, gig or outdoor worker, each with what that role can and cannot do | `lib/ai.js` `ROLES`, `buildPrompt`; `lib/alerts.js` `NEXT_STEPS` | `clause 3: actions are prioritised for the asking role` |
 | 4 | Traceable findings, gaps flagged | fact ids with source rows; citations verified; Uncertain tag | `lib/ai.js` `verifyEvidence` | `clause 4: every finding is traceable and gaps are flagged` |
 | 5 | Compare with the previous brief | snapshot diff, new and resolved hotspots, worsened alerts | `lib/diff.js` `compareSnapshots` | `clause 5: each brief is compared with the previous one` |
-| 6 | Note and advisories in languages and reading levels | internal note; advisories in up to 4 of 11 languages incl. outdoor workers | `lib/ai.js` `RESPONSE_SCHEMA`, `lib/schema.js` `validateBrief` | `clause 6: note and advisories in the requested languages` |
-| 7 | Proactive help without being asked | alerts computed before the AI runs and shown first | `lib/alerts.js` `deriveAlerts` | `test/alerts.test.js` |
-| 8 | Data for people without a table | Use my location: Open-Meteo CAMS hourly air into the same pipeline, city search fallback | `public/lib/geo.js` `toTable`, `searchCity` | `test/geo.test.js` (real captured response, fake fetch) |
-| 9 | Safe going-out plan for children and older adults | inhaled dose, band, best 2-hour window today | `public/lib/exposure.js` `inhaledDose`, `bestWindow` | `test/exposure.test.js` |
-| 10 | Ask for trees or a green buffer | cited letter to the ward office in the same Gemini call | `RESPONSE_SCHEMA.greenRequest`, `cleanGreen` | `greenRequest letter is kept when complete and dropped` |
-| 11 | Interface in more than one language | English and Hindi from one dictionary, `html lang` follows | `public/js/i18n.js` | `test/i18n.test.js` |
+| 6 | Advisories in languages and reading levels | internal note; advisories in up to 4 of 11 languages at 2 reading levels (simple, standard) | `lib/ai.js` `LANGUAGES`, `READING_LEVELS`, `RESPONSE_SCHEMA`; `lib/schema.js` `validateBrief` | `clause 6: note and advisories in the requested languages` |
+| 7 | Proactive alerts before the AI | 5 alert kinds computed in code and shown first, each with a next step per role | `lib/alerts.js` `deriveAlerts` | `test/alerts.test.js` |
+| 8 | Data for people without a table | Use my location: Open-Meteo CAMS hourly air, modelled and labelled as modelled, into the same pipeline; city search fallback | `public/lib/geo.js` `toTable`, `searchCity` | `test/geo.test.js` (real captured response, fake fetch) |
+| 9 | Going out today exposure helper | inhaled dose, band and best 2-hour window for children, older adults and outdoor workers | `public/lib/exposure.js` `inhaledDose`, `bestWindow`; `public/js/exposure-view.js` | `test/exposure.test.js` |
+| 10 | Tree-planting letter | cited letter to the ward office in the same Gemini call | `RESPONSE_SCHEMA.greenRequest`, `cleanGreen` | `greenRequest letter is kept when complete and dropped` |
+| 11 | English and Hindi interface | one dictionary, `html lang` follows | `public/js/i18n.js` | `test/i18n.test.js` |
+| 12 | Light and dark toggle | `#theme-btn`, saved in the browser, `aria-pressed` kept in sync | `public/js/main.js` | NOT TESTED in `npm test` (browser only) |
+| 13 | Remembered preferences | role, languages, reading level and text size restored on load | `public/js/main.js` `savePrefs`, `loadPrefs` | NOT TESTED in `npm test` (browser only) |
+
+## Gig and outdoor workers
+
+- Role `outdoor_worker` ("Delivery rider, gig or outdoor worker") is 1 of 8 roles. It gets its own action profile: shift to the cleanest hours, breaks in shade away from traffic, N95 on long shifts, routes away from the worst sites, rest points from the platform or employer. Code: `lib/ai.js` `ROLES.outdoor_worker`, radio button in `public/index.html`.
+- Every alert kind carries a rider-specific next step (5 of 5). Code: `lib/alerts.js` `NEXT_STEPS`.
+- Other roles also name outdoor staff they can protect (sanitation crews, guards, constables, site workers). Code: `lib/ai.js` `ROLES`.
+- Advisories include an outdoor-worker audience in the language and reading level chosen. Code: `lib/ai.js` `RESPONSE_SCHEMA`.
+- The Going out today helper picks the best 2-hour window for the day. Code: `public/lib/exposure.js`, `public/js/exposure-view.js`.
+
+## Adaptive and proactive
+
+- Alerts are derived from the data before Gemini is called and shown first (severe, rising, new hotspot, worsened, low confidence). The prompt requires a matching action for each. Code: `lib/alerts.js` `deriveAlerts`.
+- Each new brief is compared with the previous one kept in the browser, so it shows what is new, resolved or worse. Code: `lib/diff.js`, `public/js/main.js`.
+- The brief adapts to the asking role, up to 4 languages and 2 reading levels, and these choices are remembered. Code: `lib/ai.js` `buildPrompt`, `public/js/main.js` `savePrefs`, `loadPrefs`.
+- The location path needs no table: it builds one from modelled hourly air and runs the same pipeline. Code: `public/lib/geo.js`.
 
 ## Architecture
 
@@ -86,7 +105,7 @@ Live numbers (Gemini latency, cache hit across instances): run `BRIEF_ACCESS_COD
 | --- | --- | --- | --- |
 | `GEMINI_API_KEY` | yes | none | server side only |
 | `GEMINI_MODEL` | no | `gemini-3.5-flash` | falls back to `gemini-flash-latest` on 404, 429, 5xx |
-| `ACCESS_CODE` | no | empty (open) | evaluator code |
+| `ACCESS_CODE` | no | empty (open) | optional gate; the live deployment leaves it empty |
 | `MAX_BRIEFS_PER_HOUR` | no | 60 | clamped to 1 to 10,000 |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | no | memory | `KV_REST_API_URL` / `KV_REST_API_TOKEN` also work; https only |
 
@@ -123,9 +142,13 @@ npm test
 
 Zero runtime dependencies. Node 22 or newer.
 
+`public/lib/` holds pure logic with no DOM (`geo.js`, `exposure.js`) that the browser imports and node tests run directly; `public/js/` holds the browser-only views, i18n and wiring that touch the DOM.
+
 ## Limits
 
 - Standards are India NAAQS and CPCB bands; trends need at least 3 dated readings per site and pollutant.
-- Location data is modelled (CAMS via Open-Meteo), not a station reading.
-- The going-out numbers are indicative, not medical advice.
-- History stays in this browser only. Interface languages today: English and Hindi (AI translated); Marathi, Tamil and Bengali are next.
+- Location data is modelled (CAMS via Open-Meteo), not a station reading, and is labelled that way.
+- The going-out numbers are indicative planning figures, not medical advice.
+- History and preferences stay in this browser only.
+- The interface is in 2 languages (English, Hindi); advisories are in 11.
+- Open access is capped by a shared hourly request limit, so a burst of users can see a short wait.
