@@ -1,0 +1,1083 @@
+{
+ "generatedAt": "2026-11-14T05:36:32.432Z",
+ "role": "ward_officer",
+ "model": "gemini-3.5-flash",
+ "brief": {
+  "summary": "Air quality is severely degraded at Ward 12 Bus Depot and Market Yard Junction, both exceeding limits for PM2.5 and PM10. Ward 12 Bus Depot shows the highest pollution levels, with PM10 reaching 2.9 times the standard limit. Meanwhile, Sunrise Housing Society is experiencing improving air quality trends, though PM2.5 and PM10 remain above national limits. Immediate local intervention is needed to suppress dust and manage traffic emissions in elevated zones.",
+  "trends": [
+   {
+    "text": "Ward 12 Bus Depot shows a sharp rise across all pollutants, led by CO rising 50% (2.2 to 3.3 mg/m³), NO₂ rising 37% (71.4 to 97.8 µg/m³), PM2.5 rising 32.4% (142 to 188 µg/m³), and PM10 rising 23.1% (260 to 320 µg/m³).",
+    "evidence": [
+     "F2",
+     "F4",
+     "F6",
+     "F8"
+    ],
+    "verified": true
+   },
+   {
+    "text": "Market Yard Junction is experiencing rising levels of CO (+23.5%), PM2.5 (+12.5%), and NO₂ (+11.4%), while PM10 remains elevated but stable (+9.2%).",
+    "evidence": [
+     "F22",
+     "F24",
+     "F26",
+     "F28"
+    ],
+    "verified": true
+   },
+   {
+    "text": "Sunrise Housing Society is demonstrating an improving trend with reductions in PM2.5 (-20.5%), CO (-20%), PM10 (-16.7%), and NO₂ (-13.8%).",
+    "evidence": [
+     "F10",
+     "F12",
+     "F14",
+     "F16"
+    ],
+    "verified": true
+   },
+   {
+    "text": "PM10 levels at Govt Primary School Kothrud are stable (+5.4%, 112 to 118 µg/m³).",
+    "evidence": [
+     "F18"
+    ],
+    "verified": true
+   }
+  ],
+  "hotspots": [
+   {
+    "location": "Ward 12 Bus Depot",
+    "why": "Ranked worst location with PM10 at 2.9x the limit (average 291.6 µg/m³), PM2.5 average at 164.3 µg/m³ (peak 188), NO₂ average at 83.5 µg/m³, and CO average at 2.7 mg/m³ with all valid readings exceeding standards for PM2.5, PM10, and CO.",
+    "evidence": [
+     "F1",
+     "F3",
+     "F5",
+     "F7"
+    ],
+    "verified": true
+   },
+   {
+    "location": "Market Yard Junction",
+    "why": "Ranked second worst location with PM10 at 2.5x the limit (average 251 µg/m³), PM2.5 average at 128.5 µg/m³ (4 of 4 readings exceeding limit), and peak CO exceeding 2 mg/m³.",
+    "evidence": [
+     "F21",
+     "F23",
+     "F27"
+    ],
+    "verified": true
+   },
+   {
+    "location": "Sunrise Housing Society",
+    "why": "PM10 average (138.6 µg/m³) is 1.4x the limit and PM2.5 average (80.4 µg/m³) exceeds the 60 µg/m³ limit, with all valid readings exceeding 24h standards.",
+    "evidence": [
+     "F9",
+     "F11"
+    ],
+    "verified": true
+   },
+   {
+    "location": "Govt Primary School Kothrud",
+    "why": "PM10 average (113 µg/m³) exceeds the 100 limit in all 4 readings, and PM2.5 (72 µg/m³) exceeds the 60 limit.",
+    "evidence": [
+     "F17",
+     "F19"
+    ],
+    "verified": true
+   }
+  ],
+  "actions": [
+   {
+    "priority": 1,
+    "action": "Order intensive water sprinkling and mechanised road sweeping around Ward 12 Bus Depot and Market Yard Junction.",
+    "why": "PM10 is at critical levels reaching 2.9x and 2.5x the standard limit at these two locations respectively.",
+    "timeframe": "Today",
+    "evidence": [
+     "F3",
+     "F4",
+     "F23",
+     "F24"
+    ],
+    "verified": true
+   },
+   {
+    "priority": 2,
+    "action": "Deploy traffic wardens to manage congestion and reroute heavy traffic away from Ward 12 Bus Depot and Market Yard Junction.",
+    "why": "Combustion-related pollutants NO₂ and CO are rising rapidly at Ward 12 Bus Depot and Market Yard Junction.",
+    "timeframe": "Today",
+    "evidence": [
+     "F6",
+     "F8",
+     "F26",
+     "F28"
+    ],
+    "verified": true
+   },
+   {
+    "priority": 3,
+    "action": "Issue municipal notices enforcing dust control at construction sites and zero tolerance on waste burning around Sunrise Housing Society and Govt Primary School Kothrud.",
+    "why": "PM10 and PM2.5 levels exceed safety thresholds near sensitive locations like housing societies and schools.",
+    "timeframe": "This week",
+    "evidence": [
+     "F9",
+     "F11",
+     "F17",
+     "F19"
+    ],
+    "verified": true
+   },
+   {
+    "priority": 4,
+    "action": "Issue public health advisories and notices targeting Ward 12 Bus Depot commuters and nearby residents regarding Very Poor air quality.",
+    "why": "PM2.5 average stands at 164.3 µg/m³ with a peak of 188 µg/m³.",
+    "timeframe": "This week",
+    "evidence": [
+     "F1"
+    ],
+    "verified": true
+   }
+  ],
+  "dataCaveats": [
+   {
+    "text": "Govt Primary School Kothrud has low data confidence due to extremely sparse monitoring (only 1 valid reading for PM2.5 and CO).",
+    "evidence": [
+     "F19",
+     "F20"
+    ],
+    "verified": true
+   },
+   {
+    "text": "Data quality issues are present across the dataset including 4 missing values (rows 4, 10, 16, 21), 1 negative value (row 8), 1 inconsistent value (row 14), 1 implausible value (row 18), 1 duplicate (row 20), and 3 flatlines (row 12).",
+    "evidence": [
+     "F29",
+     "F30",
+     "F31",
+     "F32",
+     "F33",
+     "F34"
+    ],
+    "verified": true
+   },
+   {
+    "text": "A total of 37 readings were converted to standard units, requiring validation.",
+    "evidence": [
+     "F35"
+    ],
+    "verified": true
+   }
+  ],
+  "changeNarrative": "This is the first brief. No previous brief data exists to compare changes against past periods.",
+  "internalNote": "Team, Ward 12 Bus Depot is our top priority as PM10 is 2.9x the limit (F3) and PM2.5 averages 164.3 µg/m³ (F1), with all major pollutants rising sharply (F2, F4, F6, F8). Market Yard Junction is second worst with PM10 at 2.5x the limit (F23) and rising PM2.5, NO₂, and CO (F22, F26, F28). Sunrise Housing Society is improving across all parameters (F10, F12, F14, F16) but PM2.5 and PM10 still breach 24h limits (F9, F11). Note that data confidence at Govt Primary School Kothrud is low due to single valid readings for PM2.5 and CO (F19, F20). Immediate field teams must execute water sprinkling and dust/traffic control today at Ward 12 Bus Depot and Market Yard Junction.",
+  "advisories": [
+   {
+    "language": "English",
+    "headline": "Air Pollution Alert: Healthy Habits for Dirty Air Days",
+    "general": "The air quality in our ward is poor today. Try to stay indoors when you can. Keep windows closed during busy traffic hours.",
+    "children": "Children should not play heavy sports outside today. Play indoors instead.",
+    "olderAdults": "Older adults should take slow walks indoors and avoid crowded roads.",
+    "sensitiveGroups": "People with asthma or heart problems must keep their medicines ready and wear a mask if going outside."
+   },
+   {
+    "language": "Hindi",
+    "headline": "हवा प्रदूषण की चेतावनी: सेहत का रखें ख्याल",
+    "general": "आज हमारे इलाके की हवा खराब है। जितना हो सके घर के अंदर रहें। व्यस्त सड़क के पास खिड़की बंद रखें।",
+    "children": "बच्चे आज बाहर न भागें और न खेलें। घर के अंदर ही खेलें।",
+    "olderAdults": "बुजुर्ग बाहर टहलने न जाएं। घर के अंदर ही आराम करें।",
+    "sensitiveGroups": "अस्थमा या दिल की बीमारी वाले लोग अपनी दवा पास रखें। बाहर जाते समय मास्क जरूर पहनें।"
+   }
+  ]
+ },
+ "unverifiedCount": 0,
+ "unsupportedNumbers": [
+  23,
+  26,
+  28,
+  11,
+  19
+ ],
+ "missingLanguages": [],
+ "analysis": {
+  "rowCount": 21,
+  "validReadings": 61,
+  "period": {
+   "from": "2026-11-10T00:00:00.000Z",
+   "to": "2026-11-14T00:00:00.000Z"
+  },
+  "issueSummary": {
+   "converted": 37,
+   "missing": 4,
+   "negative": 1,
+   "inconsistent": 1,
+   "implausible": 1,
+   "duplicate": 1,
+   "flatline": 3
+  },
+  "locations": [
+   {
+    "name": "Ward 12 Bus Depot",
+    "worstPollutant": "pm10",
+    "worstRatio": 2.9,
+    "exceeds": true,
+    "rawRatio": 2.9160000000000004,
+    "worstBand": "Poor",
+    "worstFactId": "F3",
+    "validReadings": 19,
+    "flaggedReadings": 1,
+    "confidence": "high",
+    "means": {
+     "pm25": 164.3,
+     "pm10": 291.6,
+     "no2": 83.5,
+     "co": 2.7
+    }
+   },
+   {
+    "name": "Market Yard Junction",
+    "worstPollutant": "pm10",
+    "worstRatio": 2.5,
+    "exceeds": true,
+    "rawRatio": 2.51,
+    "worstBand": "Poor",
+    "worstFactId": "F23",
+    "validReadings": 18,
+    "flaggedReadings": 2,
+    "confidence": "high",
+    "means": {
+     "pm25": 128.5,
+     "pm10": 251,
+     "no2": 69.1,
+     "co": 1.9
+    }
+   },
+   {
+    "name": "Sunrise Housing Society",
+    "worstPollutant": "pm10",
+    "worstRatio": 1.4,
+    "exceeds": true,
+    "rawRatio": 1.386,
+    "worstBand": "Moderate",
+    "worstFactId": "F11",
+    "validReadings": 18,
+    "flaggedReadings": 2,
+    "confidence": "high",
+    "means": {
+     "pm25": 80.4,
+     "pm10": 138.6,
+     "no2": 38.9,
+     "co": 0.9
+    }
+   },
+   {
+    "name": "Govt Primary School Kothrud",
+    "worstPollutant": "pm25",
+    "worstRatio": 1.2,
+    "exceeds": true,
+    "rawRatio": 1.2,
+    "worstBand": "Moderate",
+    "worstFactId": "F19",
+    "validReadings": 6,
+    "flaggedReadings": 5,
+    "confidence": "low",
+    "means": {
+     "pm10": 113,
+     "pm25": 72,
+     "co": 0.8
+    }
+   }
+  ],
+  "hotspots": [
+   "Ward 12 Bus Depot",
+   "Market Yard Junction",
+   "Sunrise Housing Society",
+   "Govt Primary School Kothrud"
+  ],
+  "facts": [
+   {
+    "id": "F1",
+    "kind": "stat",
+    "text": "Ward 12 Bus Depot: PM2.5 average 164.3 µg/m³ over 4 valid readings (Very Poor); peak 188 at row 6; 4 above the 60 limit.",
+    "rows": [
+     2,
+     3,
+     5,
+     6
+    ]
+   },
+   {
+    "id": "F2",
+    "kind": "trend",
+    "text": "Ward 12 Bus Depot: PM2.5 is rising (+32.4%, 142 to 188).",
+    "rows": [
+     2,
+     6
+    ]
+   },
+   {
+    "id": "F3",
+    "kind": "stat",
+    "text": "Ward 12 Bus Depot: PM10 average 291.6 µg/m³ over 5 valid readings (Poor); peak 320 at row 6; 5 above the 100 limit.",
+    "rows": [
+     2,
+     3,
+     4,
+     5,
+     6
+    ]
+   },
+   {
+    "id": "F4",
+    "kind": "trend",
+    "text": "Ward 12 Bus Depot: PM10 is rising (+23.1%, 260 to 320).",
+    "rows": [
+     2,
+     6
+    ]
+   },
+   {
+    "id": "F5",
+    "kind": "stat",
+    "text": "Ward 12 Bus Depot: NO₂ average 83.5 µg/m³ over 5 valid readings (Moderate); peak 97.8 at row 6; 3 above the 80 limit.",
+    "rows": [
+     2,
+     3,
+     4,
+     5,
+     6
+    ]
+   },
+   {
+    "id": "F6",
+    "kind": "trend",
+    "text": "Ward 12 Bus Depot: NO₂ is rising (+37%, 71.4 to 97.8).",
+    "rows": [
+     2,
+     6
+    ]
+   },
+   {
+    "id": "F7",
+    "kind": "stat",
+    "text": "Ward 12 Bus Depot: CO average 2.7 mg/m³ over 5 valid readings (Moderate); peak 3.3 at row 6; 5 above the 2 limit.",
+    "rows": [
+     2,
+     3,
+     4,
+     5,
+     6
+    ]
+   },
+   {
+    "id": "F8",
+    "kind": "trend",
+    "text": "Ward 12 Bus Depot: CO is rising (+50%, 2.2 to 3.3).",
+    "rows": [
+     2,
+     6
+    ]
+   },
+   {
+    "id": "F9",
+    "kind": "stat",
+    "text": "Sunrise Housing Society: PM2.5 average 80.4 µg/m³ over 5 valid readings (Moderate); peak 91 at row 8; 5 above the 60 limit.",
+    "rows": [
+     7,
+     8,
+     9,
+     10,
+     11
+    ]
+   },
+   {
+    "id": "F10",
+    "kind": "trend",
+    "text": "Sunrise Housing Society: PM2.5 is falling (-20.5%, 88 to 70).",
+    "rows": [
+     7,
+     11
+    ]
+   },
+   {
+    "id": "F11",
+    "kind": "stat",
+    "text": "Sunrise Housing Society: PM10 average 138.6 µg/m³ over 5 valid readings (Moderate); peak 150 at row 7; 5 above the 100 limit.",
+    "rows": [
+     7,
+     8,
+     9,
+     10,
+     11
+    ]
+   },
+   {
+    "id": "F12",
+    "kind": "trend",
+    "text": "Sunrise Housing Society: PM10 is falling (-16.7%, 150 to 125).",
+    "rows": [
+     7,
+     11
+    ]
+   },
+   {
+    "id": "F13",
+    "kind": "stat",
+    "text": "Sunrise Housing Society: NO₂ average 38.9 µg/m³ over 3 valid readings (Good); peak 41.4 at row 7; 0 above the 80 limit.",
+    "rows": [
+     7,
+     9,
+     11
+    ]
+   },
+   {
+    "id": "F14",
+    "kind": "trend",
+    "text": "Sunrise Housing Society: NO₂ is falling (-13.8%, 41.4 to 35.7).",
+    "rows": [
+     7,
+     11
+    ]
+   },
+   {
+    "id": "F15",
+    "kind": "stat",
+    "text": "Sunrise Housing Society: CO average 0.9 mg/m³ over 5 valid readings (Good); peak 1 at row 7; 0 above the 2 limit.",
+    "rows": [
+     7,
+     8,
+     9
+    ]
+   },
+   {
+    "id": "F16",
+    "kind": "trend",
+    "text": "Sunrise Housing Society: CO is falling (-20%, 1 to 0.8).",
+    "rows": [
+     7,
+     11
+    ]
+   },
+   {
+    "id": "F17",
+    "kind": "stat",
+    "text": "Govt Primary School Kothrud: PM10 average 113 µg/m³ over 4 valid readings (Moderate); peak 118 at row 16; 4 above the 100 limit.",
+    "rows": [
+     12,
+     13,
+     15,
+     16
+    ]
+   },
+   {
+    "id": "F18",
+    "kind": "trend",
+    "text": "Govt Primary School Kothrud: PM10 is stable (+5.4%, 112 to 118).",
+    "rows": [
+     12,
+     16
+    ]
+   },
+   {
+    "id": "F19",
+    "kind": "stat",
+    "text": "Govt Primary School Kothrud: PM2.5 average 72 µg/m³ over 1 valid readings (Moderate); peak 72 at row 16; 1 above the 60 limit.",
+    "rows": [
+     16
+    ]
+   },
+   {
+    "id": "F20",
+    "kind": "stat",
+    "text": "Govt Primary School Kothrud: CO average 0.8 mg/m³ over 1 valid readings (Good); peak 0.8 at row 16; 0 above the 2 limit.",
+    "rows": [
+     16
+    ]
+   },
+   {
+    "id": "F21",
+    "kind": "stat",
+    "text": "Market Yard Junction: PM2.5 average 128.5 µg/m³ over 4 valid readings (Very Poor); peak 135 at row 22; 4 above the 60 limit.",
+    "rows": [
+     17,
+     19,
+     21,
+     22
+    ]
+   },
+   {
+    "id": "F22",
+    "kind": "trend",
+    "text": "Market Yard Junction: PM2.5 is rising (+12.5%, 120 to 135).",
+    "rows": [
+     17,
+     22
+    ]
+   },
+   {
+    "id": "F23",
+    "kind": "stat",
+    "text": "Market Yard Junction: PM10 average 251 µg/m³ over 5 valid readings (Poor); peak 262 at row 22; 5 above the 100 limit.",
+    "rows": [
+     17,
+     18,
+     19,
+     21,
+     22
+    ]
+   },
+   {
+    "id": "F24",
+    "kind": "trend",
+    "text": "Market Yard Junction: PM10 is stable (+9.2%, 240 to 262).",
+    "rows": [
+     17,
+     22
+    ]
+   },
+   {
+    "id": "F25",
+    "kind": "stat",
+    "text": "Market Yard Junction: NO₂ average 69.1 µg/m³ over 4 valid readings (Satisfactory); peak 73.3 at row 22; 0 above the 80 limit.",
+    "rows": [
+     17,
+     18,
+     19,
+     22
+    ]
+   },
+   {
+    "id": "F26",
+    "kind": "trend",
+    "text": "Market Yard Junction: NO₂ is rising (+11.4%, 65.8 to 73.3).",
+    "rows": [
+     17,
+     22
+    ]
+   },
+   {
+    "id": "F27",
+    "kind": "stat",
+    "text": "Market Yard Junction: CO average 1.9 mg/m³ over 5 valid readings (Satisfactory); peak 2.1 at row 22; 1 above the 2 limit.",
+    "rows": [
+     17,
+     18,
+     19,
+     22
+    ]
+   },
+   {
+    "id": "F28",
+    "kind": "trend",
+    "text": "Market Yard Junction: CO is rising (+23.5%, 1.7 to 2.1).",
+    "rows": [
+     17,
+     22
+    ]
+   },
+   {
+    "id": "F29",
+    "kind": "quality",
+    "text": "4 data issue(s) of type \"missing\" (rows 4, 10, 16, 21).",
+    "rows": [
+     4,
+     10,
+     16,
+     21
+    ]
+   },
+   {
+    "id": "F30",
+    "kind": "quality",
+    "text": "1 data issue(s) of type \"negative\" (rows 8).",
+    "rows": [
+     8
+    ]
+   },
+   {
+    "id": "F31",
+    "kind": "quality",
+    "text": "1 data issue(s) of type \"inconsistent\" (rows 14).",
+    "rows": [
+     14
+    ]
+   },
+   {
+    "id": "F32",
+    "kind": "quality",
+    "text": "1 data issue(s) of type \"implausible\" (rows 18).",
+    "rows": [
+     18
+    ]
+   },
+   {
+    "id": "F33",
+    "kind": "quality",
+    "text": "1 data issue(s) of type \"duplicate\" (rows 20).",
+    "rows": [
+     20
+    ]
+   },
+   {
+    "id": "F34",
+    "kind": "quality",
+    "text": "3 data issue(s) of type \"flatline\" (rows 12, 12, 12).",
+    "rows": [
+     12
+    ]
+   },
+   {
+    "id": "F35",
+    "kind": "quality",
+    "text": "37 reading(s) were converted to standard units.",
+    "rows": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     21,
+     22
+    ]
+   }
+  ]
+ },
+ "issues": [
+  {
+   "row": 2,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "38",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 2,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "1.9",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 3,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "41",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 3,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "2.2",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 4,
+   "column": "PM2.5 (ug/m3)",
+   "type": "missing",
+   "message": "Missing reading",
+   "rawValue": "N/A",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 4,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "44",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 4,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "2.4",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 5,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "47",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 5,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "2.6",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 6,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "52",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 6,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "2.9",
+   "location": "Ward 12 Bus Depot"
+  },
+  {
+   "row": 7,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "22",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 7,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.9",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 8,
+   "column": "NO2 (ppb)",
+   "type": "negative",
+   "message": "Negative reading (sensor fault)",
+   "rawValue": "-5",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 8,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.8",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 9,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "21",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 9,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.8",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 10,
+   "column": "NO2 (ppb)",
+   "type": "missing",
+   "message": "Missing reading",
+   "rawValue": "",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 10,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.7",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 11,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "19",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 11,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.7",
+   "location": "Sunrise Housing Society"
+  },
+  {
+   "row": 12,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "18",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 12,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.6",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 13,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "18",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 13,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.6",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 14,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "18",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 14,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.6",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 14,
+   "column": "PM2.5 vs PM10",
+   "type": "inconsistent",
+   "message": "PM2.5 above PM10 (physically unlikely)",
+   "rawValue": "65 > 40",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 15,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "18",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 15,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.6",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 16,
+   "column": "PM2.5 (ug/m3)",
+   "type": "converted",
+   "message": "Converted mg/m3 to µg/m³",
+   "rawValue": "0.072 mg/m3",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 16,
+   "column": "NO2 (ppb)",
+   "type": "missing",
+   "message": "Missing reading",
+   "rawValue": "err",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 16,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "0.7",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 17,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "35",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 17,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "1.5",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 18,
+   "column": "PM2.5 (ug/m3)",
+   "type": "implausible",
+   "message": "Implausibly high for PM2.5",
+   "rawValue": "9999",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 18,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "36",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 18,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "1.6",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 19,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "37",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 19,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "1.6",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 20,
+   "column": "*",
+   "type": "duplicate",
+   "message": "Duplicate row ignored",
+   "rawValue": ""
+  },
+  {
+   "row": 21,
+   "column": "NO2 (ppb)",
+   "type": "missing",
+   "message": "Missing reading",
+   "rawValue": "offline",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 21,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "1.7",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 22,
+   "column": "NO2 (ppb)",
+   "type": "converted",
+   "message": "Converted ppb to µg/m³",
+   "rawValue": "39",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 22,
+   "column": "CO (ppm)",
+   "type": "converted",
+   "message": "Converted ppm to mg/m³",
+   "rawValue": "1.8",
+   "location": "Market Yard Junction"
+  },
+  {
+   "row": 12,
+   "column": "PM2.5",
+   "type": "flatline",
+   "message": "Same value 65 repeated 4 times (possible stuck sensor), rows 12-15",
+   "rawValue": "65",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 12,
+   "column": "NO₂",
+   "type": "flatline",
+   "message": "Same value 33.8 repeated 4 times (possible stuck sensor), rows 12-15",
+   "rawValue": "33.8",
+   "location": "Govt Primary School Kothrud"
+  },
+  {
+   "row": 12,
+   "column": "CO",
+   "type": "flatline",
+   "message": "Same value 0.7 repeated 4 times (possible stuck sensor), rows 12-15",
+   "rawValue": "0.7",
+   "location": "Govt Primary School Kothrud"
+  }
+ ],
+ "comparison": {
+  "hasPrevious": false,
+  "changes": [],
+  "newHotspots": [],
+  "resolvedHotspots": [],
+  "issueDelta": 0
+ },
+ "snapshot": {
+  "hotspots": [
+   "Ward 12 Bus Depot",
+   "Market Yard Junction",
+   "Sunrise Housing Society",
+   "Govt Primary School Kothrud"
+  ],
+  "issueTotal": 11,
+  "locations": {
+   "Ward 12 Bus Depot": {
+    "pm25": 164.3,
+    "pm10": 291.6,
+    "no2": 83.5,
+    "co": 2.7
+   },
+   "Market Yard Junction": {
+    "pm25": 128.5,
+    "pm10": 251,
+    "no2": 69.1,
+    "co": 1.9
+   },
+   "Sunrise Housing Society": {
+    "pm25": 80.4,
+    "pm10": 138.6,
+    "no2": 38.9,
+    "co": 0.9
+   },
+   "Govt Primary School Kothrud": {
+    "pm10": 113,
+    "pm25": 72,
+    "co": 0.8
+   }
+  },
+  "period": {
+   "from": "2026-11-10T00:00:00.000Z",
+   "to": "2026-11-14T00:00:00.000Z"
+  }
+ }
+}
