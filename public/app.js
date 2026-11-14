@@ -40,9 +40,10 @@ function setStatus(msg, kind = '') {
   s.className = `status ${kind}`;
 }
 
-function evidenceLinks(ids) {
-  if (!ids?.length) return el('span', { class: 'badge warn' }, 'Unverified: no data cited');
-  return el('span', { class: 'ev' }, 'Evidence: ', ...ids.map((id) => el('button', { type: 'button', class: 'fact-link', 'aria-label': `Show fact ${id}`, onclick: () => showFact(id) }, id)));
+function evidenceLinks(ids, item = {}) {
+  const warn = item.verified === false ? el('span', { class: 'badge warn' }, `Unverified: ${item.unverifiedReason || 'no data cited'}`) : null;
+  if (!ids?.length) return warn || el('span', { class: 'badge warn' }, 'Unverified: no data cited');
+  return el('span', { class: 'ev' }, warn, ' Evidence: ', ...ids.map((id) => el('button', { type: 'button', class: 'fact-link', 'aria-label': `Show fact ${id}`, onclick: () => showFact(id) }, id)));
 }
 
 function showFact(id) {
@@ -75,6 +76,8 @@ function render(data) {
       el('li', {}, el('strong', {}, analysis.hotspots.length), ' hotspots'),
       el('li', {}, el('strong', {}, period))),
     data.unverifiedCount ? el('p', { class: 'badge warn' }, `${data.unverifiedCount} AI statement(s) did not cite data and are marked unverified.`) : null,
+    data.unsupportedNumbers?.length ? el('p', { class: 'badge warn' }, `Check: the summary or note mentions numbers not found in your data (${data.unsupportedNumbers.join(', ')}).`) : null,
+    data.missingLanguages?.length ? el('p', { class: 'badge warn' }, `Gemini did not return: ${data.missingLanguages.join(', ')}. Try again.`) : null,
   );
 
   const ch = $('changes');
@@ -92,7 +95,7 @@ function render(data) {
   const q = $('quality');
   const flagged = issues.filter((i) => i.type !== 'converted');
   q.replaceChildren(el('h3', {}, `Data gaps and unreliable readings (${flagged.length})`));
-  q.append(el('ul', { class: 'items' }, brief.dataCaveats.map((c) => el('li', {}, c.text, ' ', evidenceLinks(c.evidence)))));
+  q.append(el('ul', { class: 'items' }, brief.dataCaveats.map((c) => el('li', {}, c.text, ' ', evidenceLinks(c.evidence, c)))));
   if (issues.length) {
     const table = el('table', {}, el('caption', { class: 'sr-only' }, 'Flagged rows'),
       el('thead', {}, el('tr', {}, el('th', { scope: 'col' }, 'Row'), el('th', { scope: 'col' }, 'Column'), el('th', { scope: 'col' }, 'Issue'), el('th', { scope: 'col' }, 'Raw'))),
@@ -100,10 +103,10 @@ function render(data) {
     q.append(el('details', {}, el('summary', {}, 'Show flagged rows'), el('div', { class: 'scroll' }, table)));
   }
 
-  list($('hotspots'), 'Likely hotspots', brief.hotspots, (h) => [el('strong', {}, h.location), ` ${h.why} `, evidenceLinks(h.evidence)]);
+  list($('hotspots'), 'Likely hotspots', brief.hotspots, (h) => [el('strong', {}, h.location), ` ${h.why} `, evidenceLinks(h.evidence, h)]);
   list($('actions'), `Prioritised actions for ${ROLE_NAMES[data.role]}`, brief.actions, (a) => [
-    el('span', { class: 'prio' }, `P${a.priority}`), ' ', el('strong', {}, a.action), el('span', { class: 'muted' }, ` · ${a.timeframe}`), el('br'), a.why, ' ', evidenceLinks(a.evidence)]);
-  list($('trends'), 'Trends', brief.trends, (t) => [t.text, ' ', evidenceLinks(t.evidence)]);
+    el('span', { class: 'prio' }, `P${a.priority}`), ' ', el('strong', {}, a.action), el('span', { class: 'muted' }, ` · ${a.timeframe}`), el('br'), a.why, ' ', evidenceLinks(a.evidence, a)]);
+  list($('trends'), 'Trends', brief.trends, (t) => [t.text, ' ', evidenceLinks(t.evidence, t)]);
   $('note').textContent = brief.internalNote;
 
   renderAdvisories(brief.advisories);
@@ -124,9 +127,9 @@ function renderAdvisories(advisories) {
     const tab = el('button', { type: 'button', role: 'tab', id: `${id}-tab`, 'aria-controls': id, 'aria-selected': String(i === 0), tabindex: i === 0 ? '0' : '-1', class: 'tab' }, a.language);
     const panel = el('div', { role: 'tabpanel', id, 'aria-labelledby': `${id}-tab`, lang: LANG_CODES[a.language] || '', class: 'adv' },
       el('h4', {}, a.headline), el('p', {}, a.general),
-      el('h5', {}, '👧 Children'), el('p', {}, a.children),
-      el('h5', {}, '🧓 Older adults'), el('p', {}, a.olderAdults),
-      el('h5', {}, '🫁 Sensitive groups'), el('p', {}, a.sensitiveGroups));
+      el('h5', {}, 'Children'), el('p', {}, a.children),
+      el('h5', {}, 'Older adults'), el('p', {}, a.olderAdults),
+      el('h5', {}, 'Asthma, heart or lung conditions, pregnancy'), el('p', {}, a.sensitiveGroups));
     if (i !== 0) panel.hidden = true;
     tabs.append(tab);
     panels.append(panel);
