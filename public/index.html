@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Air Briefing Studio</title>
+  <meta name="description" content="Turn messy air quality tables into traceable, role-specific briefs and multilingual citizen advisories with Gemini.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap">
+      <h1>Air Briefing Studio</h1>
+      <p class="lede">Paste a raw air quality table. Get hotspots, actions for who you are, what changed since last time, and advisories people can read, with every finding linked to your rows.</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <form id="form" class="card" novalidate>
+      <h2>1. Your data</h2>
+      <label for="table">Air quality table (CSV, TSV, semicolon or spaced columns; mixed units are fine)</label>
+      <textarea id="table" name="table" rows="9" spellcheck="false" placeholder="Station, Date, PM2.5, PM10, NO2 ..." required aria-describedby="table-help"></textarea>
+      <p id="table-help" class="help">Headers like Station / Ward / Site, Date, PM2.5, PM10, NO2, O3, SO2, CO, AQI are recognised. Units in headers or cells (µg/m³, mg/m³, ppb, ppm) are converted.</p>
+      <div class="row">
+        <label class="file">Upload a file <input id="file" type="file" accept=".csv,.tsv,.txt,text/csv,text/plain"></label>
+        <button type="button" id="sample" class="ghost">Load sample messy table</button>
+      </div>
+
+      <h2>2. Who is asking</h2>
+      <fieldset class="roles">
+        <legend class="sr-only">Role</legend>
+        <label><input type="radio" name="role" value="ward_officer" checked> Ward officer</label>
+        <label><input type="radio" name="role" value="housing_society"> Housing society</label>
+        <label><input type="radio" name="role" value="school"> School</label>
+      </fieldset>
+
+      <h2>3. Citizen advisory</h2>
+      <fieldset>
+        <legend>Languages (up to 4)</legend>
+        <div class="chips" id="langs"></div>
+      </fieldset>
+      <fieldset class="roles">
+        <legend>Reading level</legend>
+        <label><input type="radio" name="level" value="simple" checked> Simple (age 10)</label>
+        <label><input type="radio" name="level" value="standard"> Standard</label>
+      </fieldset>
+
+      <label for="code">Access code</label>
+      <input id="code" name="code" type="password" autocomplete="off" placeholder="See README">
+
+      <div class="row">
+        <button type="submit" id="go" class="primary">Generate brief</button>
+        <label class="inline"><input type="checkbox" id="compare" checked> Compare with my previous brief</label>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </form>
+
+    <section id="out" hidden aria-labelledby="out-h">
+      <h2 id="out-h" class="sr-only">Brief</h2>
+      <div class="card" id="summary-card"></div>
+      <div class="grid">
+        <div class="card" id="changes"></div>
+        <div class="card" id="quality"></div>
+      </div>
+      <div class="card" id="hotspots"></div>
+      <div class="card" id="actions"></div>
+      <div class="card" id="trends"></div>
+      <div class="card">
+        <div class="head"><h3>Internal briefing note</h3><button type="button" class="ghost" data-copy="note">Copy</button></div>
+        <pre id="note" class="note"></pre>
+      </div>
+      <div class="card">
+        <h3>Citizen advisory</h3>
+        <div role="tablist" id="adv-tabs" aria-label="Advisory language"></div>
+        <div id="adv-panels"></div>
+      </div>
+      <div class="card" id="facts"></div>
+    </section>
+
+    <section class="card" id="history-card" aria-labelledby="hist-h">
+      <h2 id="hist-h">Previous briefs on this device</h2>
+      <ol id="history"></ol>
+      <button type="button" id="clear" class="ghost">Clear history</button>
+    </section>
+  </main>
+  <footer class="wrap foot">Numbers are computed from your table in code; Gemini writes the guidance and must cite fact ids. Uncited claims are marked. Limits: India NAAQS.</footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
