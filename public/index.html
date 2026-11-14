@@ -37,6 +37,14 @@
         <button type="button" class="path" id="sample-btn"><span class="path-t" data-i18n="trySample">Try the sample table</span><span class="path-d" data-i18n="trySampleD">21 rows from 4 Pune sites, with real data problems</span></button>
         <button type="button" class="path" id="loc-btn"><span class="path-t" data-i18n="useLocation">Use my location</span><span class="path-d" data-i18n="useLocationD">Last 24 hours of modelled air for where you are. Not stored.</span></button>
       </div>
+      <div class="field paste">
+        <label for="table" data-i18n="tableLabel">Or paste your table here (from Excel, Sheets, a PDF or WhatsApp)</label>
+        <p class="hint" id="table-hint" data-i18n="tableHint">CSV, TSV or pasted from a spreadsheet. Messy is fine.</p>
+        <textarea id="table" form="form" aria-describedby="table-hint table-err" spellcheck="false"></textarea>
+        <p class="err" id="table-err"></p>
+        <label class="btn quiet file"><input type="file" id="file" accept=".csv,.tsv,.txt" class="sr-only"><span data-i18n="upload">Upload a file</span></label>
+        <p class="source" id="source-note" hidden></p>
+      </div>
       <form class="city" id="city-form" hidden>
         <label for="city" data-i18n="cityLabel">Location blocked or unavailable. Search a city instead:</label>
         <div class="inline"><input id="city" type="search" autocomplete="address-level2" required><button class="btn" type="submit" data-i18n="search">Search</button></div>
@@ -58,19 +66,15 @@
 
     <form id="form" class="setup" novalidate aria-labelledby="setup-title">
       <h2 id="setup-title" class="tag" data-i18n="setup">Your brief</h2>
-      <div class="field">
-        <label for="table" data-i18n="tableLabel">Air quality table</label>
-        <p class="hint" id="table-hint" data-i18n="tableHint">CSV, TSV or pasted from a spreadsheet. Messy is fine.</p>
-        <textarea id="table" aria-describedby="table-hint table-err" spellcheck="false"></textarea>
-        <p class="err" id="table-err"></p>
-        <label class="btn quiet file"><input type="file" id="file" accept=".csv,.tsv,.txt" class="sr-only"><span data-i18n="upload">Upload a file</span></label>
-        <p class="source" id="source-note" hidden></p>
-      </div>
       <fieldset class="field"><legend data-i18n="role">I am a</legend>
         <div class="seg">
           <label><input type="radio" name="role" value="ward_officer" checked> <span data-i18n="roleWard">Ward officer</span></label>
           <label><input type="radio" name="role" value="housing_society"> <span data-i18n="roleSociety">Housing society</span></label>
           <label><input type="radio" name="role" value="school"> <span data-i18n="roleSchool">School</span></label>
+          <label><input type="radio" name="role" value="health_officer"> <span data-i18n="roleHealth">Health officer or PHC doctor</span></label>
+          <label><input type="radio" name="role" value="traffic_police"> <span data-i18n="roleTraffic">Traffic police</span></label>
+          <label><input type="radio" name="role" value="site_manager"> <span data-i18n="roleSite">Construction or industry site manager</span></label>
+          <label><input type="radio" name="role" value="citizen"> <span data-i18n="roleCitizen">Parent or resident</span></label>
         </div>
       </fieldset>
       <fieldset class="field"><legend data-i18n="langs">Advisory languages (up to 4)</legend><div class="chips" id="langs"></div><p class="err" id="langs-err"></p></fieldset>

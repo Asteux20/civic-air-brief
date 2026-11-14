@@ -51,6 +51,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 var(--s5) var(--s8); }
 .path:first-child { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .path-t { font-size: 1.25rem; font-weight: 500; }
 .path-d { font-size: .875rem; opacity: .9; }
+.paste { margin-top: var(--s5); }
 .city { margin-top: var(--s4); display: grid; gap: var(--s2); }
 .inline { display: flex; gap: var(--s2); }
 .inline input { flex: 1; min-height: 44px; border: 1px solid var(--field); padding: 0 var(--s3); background: var(--ground); }

@@ -128,3 +128,10 @@ test('greenRequest letter is kept when complete and dropped, never invented, whe
   assert.equal(validateBrief({ ...base, greenRequest: { subject: '', body: 'x' } }, []).brief.greenRequest, null);
   assert.equal(validateBrief(base, []).brief.greenRequest, null);
 });
+
+test('em dashes from the model become commas in every cleaned text field', () => {
+  const raw = { summary: 'Ward 12 is worst \u2014 2.9x the limit', internalNote: 'n', actions: [{ priority: 1, action: 'Sprinkle roads\u2014today', why: 'w', timeframe: 't', evidence: [] }], advisories: [] };
+  const { brief } = validateBrief(raw, []);
+  assert.equal(brief.summary, 'Ward 12 is worst, 2.9x the limit');
+  assert.ok(!JSON.stringify(brief).includes('\u2014'));
+});

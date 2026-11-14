@@ -109,3 +109,13 @@ test('response reports claims traced, alerts, instance id and store kind', async
   assert.match(res.body.instanceId, /^[0-9a-f]{8}$/);
   assert.equal(res.body.store, 'memory');
 });
+
+test('the prompt carries the plain-writing rules and bans the slop words', async () => {
+  const { prepareBrief } = await import('../lib/brief.js');
+  const { readFileSync } = await import('node:fs');
+  const table = readFileSync(new URL('../public/sample-messy.csv', import.meta.url), 'utf8');
+  const { prompt } = prepareBrief({ table, role: 'citizen', languages: ['English'], readingLevel: 'standard', previous: null });
+  assert.match(prompt, /Put the number first/);
+  assert.match(prompt, /crucial, vital, robust, ensure, delve, landscape, navigate/);
+  assert.match(prompt, /Parent or resident/);
+});
