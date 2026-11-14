@@ -59,3 +59,10 @@ test('4 languages accepted, 5 rejected', () => {
   assert.equal(validateRequest({ ...base, languages: ['English', 'Hindi', 'Tamil', 'Urdu'] }).languages.length, 4);
   assert.throws(() => validateRequest({ ...base, languages: ['English', 'Hindi', 'Tamil', 'Urdu', 'Bengali'] }), /up to 4/);
 });
+
+test('a site name is cut to 200 characters and loses control characters before it reaches the prompt', () => {
+  const long = 'Ward\u0007 ' + 'x'.repeat(5000);
+  const { readings } = parseTable(`Site,Date,PM10\n${long},2026-11-10,120`);
+  assert.equal(readings[0].location.length, 200);
+  assert.ok(!/[\u0000-\u001f]/.test(readings[0].location));
+});
